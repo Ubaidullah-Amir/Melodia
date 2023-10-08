@@ -19,7 +19,7 @@ const Header = ({user}) => {
                   </Link>
                   <div className='flex items-center gap-3'>
                         <Link className='p-1 hover:underline underline-offset-1' href="/movies">Movies</Link>
-                        <Link className='p-1 hover:underline underline-offset-1' href="/about">About</Link>
+                        <Link className='p-1 hover:underline underline-offset-1' href="/post">post</Link>
                         <Link className='p-1 hover:underline underline-offset-1 flex items-center gap-1 ' href="/profile">
                               <Image
                                     className='rounded-full'

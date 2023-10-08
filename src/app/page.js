@@ -5,6 +5,7 @@ import { authOptions } from './api/auth/[...nextauth]/route';
 import UserComp from '@/components/UserComp';
 import prisma from '@/db/dbConfig';
 import Link from 'next/link';
+
 async function fetchUsers() {
   try {
     const users = await prisma.user.findMany({
@@ -20,7 +21,6 @@ async function fetchUsers() {
 }
 const  Home =async () => {
   const session = await getServerSession(authOptions)
-  console.log("session in home",session)
   const {data:users,isError,error} = await fetchUsers()
   if(isError){
     return <h1 className='text-center text-red-600'>{error}</h1>

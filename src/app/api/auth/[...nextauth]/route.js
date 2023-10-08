@@ -85,7 +85,6 @@ export const authOptions = {
                   // token values (e.g. when user changes name in db so use update({name:"abc2"}))
                   // if(trigger==="update" && session?.name){}
                   // better to uppdate the name here so only need to run update function and all things change
-                  console.log("token",token)
                   if(user){
                         // create a new token with user 
                         const returnToken = {...token ,...user}

@@ -69,12 +69,12 @@ const RegisterForm = () => {
                   </div>
                   <form onSubmit={onSubmit} className='flex flex-col gap-6'>
                         <div >
-                              <label htmlFor="username" className={focused.username || formData.username!=""?"absolute -translate-y-5 border-2 border-gray-300  scale-90 bg-white inline-block translate-x-1 p-1 px-2 rounded-md":"absolute block translate-y-3 translate-x-3"}>{focused.username || formData.username!=""?"username":"Enter username"}</label>
+                              <label htmlFor="username" className={focused.username || formData.username!=""?"absolute -translate-y-5 border-2 border-gray-300  scale-90 transition-transform bg-white inline-block translate-x-1 p-1 px-2 rounded-md":"absolute block translate-y-3  translate-x-3"}>{focused.username || formData.username!=""?"Username":"Enter username"}</label>
                               <input className={` w-full rounded-md p-3 text-black outline-none focus:border-2 ${error ?"border-2 focus:border-gray-400 border-red-400":"border-gray-400"}`}  type='text' id='username' onBlur={()=>{setFocused((prevState)=>{return{...prevState,username:false}})}} onFocus={()=>{setFocused((prevState)=>{return{...prevState,username:true}})}} onChange={(e)=>{setFormData((prevState)=>{return {...prevState,username:e.target.value}})}}/>
                               
                         </div>
                         <div >
-                              <label htmlFor="email" className={focused.email || formData.email!=""?"absolute -translate-y-5 border-2 border-gray-300  scale-90 bg-white inline-block translate-x-1 p-1 px-2 rounded-md":"absolute block translate-y-3 translate-x-3"}>{focused.email || formData.email!=""?"Email":"Enter Email"}</label>
+                              <label htmlFor="email" className={focused.email || formData.email!=""?"absolute -translate-y-5 border-2 border-gray-300  scale-90 bg-white transition-transform inline-block translate-x-1 p-1 px-2 rounded-md":"absolute block translate-y-3 translate-x-3"}>{focused.email || formData.email!=""?"Email":"Enter Email"}</label>
                               <input className={` w-full rounded-md p-3 text-black outline-none focus:border-2 ${error ?"border-2 focus:border-gray-400 border-red-400":"border-gray-400"}`}  type='text' id='email' onBlur={()=>{setFocused((prevState)=>{return{...prevState,email:false}})}} onFocus={()=>{setFocused((prevState)=>{return{...prevState,email:true}})}} onChange={(e)=>{setFormData((prevState)=>{return {...prevState,email:e.target.value}})}}/>
                               
                         </div>
@@ -89,7 +89,7 @@ const RegisterForm = () => {
                                           <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                               }
-                              <label htmlFor="password" className={focused.password || formData.password!=""?"absolute -translate-y-5 border-2 border-gray-300 scale-90 bg-white inline-block translate-x-1 p-1 px-2 rounded-md":"absolute block translate-y-3 translate-x-3"}>Password</label>
+                              <label htmlFor="password" className={focused.password || formData.password!=""?"absolute transition-transform -translate-y-5 border-2 border-gray-300 scale-90 bg-white inline-block translate-x-1 p-1 px-2 rounded-md":"absolute block translate-y-3 translate-x-3"}>Password</label>
                               <input className={` w-full rounded-md p-3 text-black outline-none focus:border-2 ${error?"border-2 border-red-400":"border-gray-400"}`} type={passShow?"text":'password'} id='password' onBlur={()=>{setFocused((prevState)=>{return{...prevState,password:false}})}} onFocus={()=>{setFocused((prevState)=>{return{...prevState,password:true}})}} onChange={(e)=>{setFormData((prevState)=>{return {...prevState,password:e.target.value}})}}/>
                               
                         </div>
