@@ -1,5 +1,6 @@
 import { OauthCreateUser } from "@/db/controller/user";
 import prisma from "@/db/dbConfig"
+// import getSpotifyToken from "@/helper/getSpotifyToken";
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -19,6 +20,7 @@ export const authOptions = {
                   password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
+                  // console.log("credentials",credentials)
                   // Add logic here to look up the user from the credentials supplied
                   const user = await prisma.user.findFirst({
                         where:{
@@ -37,7 +39,8 @@ export const authOptions = {
             
                   if (user) {
                         // Any object returned will be saved in `user` property of the JWT
-                        console.log("user",user)
+                        // console.log("user",user)
+                        
                         return user
                   } else {
                         // If you return null then an error will be displayed advising the user to check their details.
@@ -54,7 +57,7 @@ export const authOptions = {
       callbacks:{
             async signIn({ account, profile }) {
                   if (account.provider === "google") {
-                        console.log("provider is Google")
+                        // console.log("provider is Google")
                         if(profile.email_verified && profile.email.endsWith("@gmail.com")){
                               // verified email
                               // create a user if not there in db
@@ -89,9 +92,11 @@ export const authOptions = {
                         // create a new token with user 
                         const returnToken = {...token ,...user}
                         if(!returnToken.username){
+                              // get spotify token and place it in token OBJ
                               returnToken.username=token.name
-                              
                         }
+                        // const spotifyAccessToken=await getSpotifyToken()
+                        // returnToken.spotifyAccessToken=spotifyAccessToken
                         return returnToken
                   }
                   return token
@@ -103,7 +108,10 @@ export const authOptions = {
       },
       secret:process.env.NEXTAUTH_SECRET,
       session:{
-            strategy:'jwt'
+            strategy:'jwt',
+            
+            // Seconds - How long until an idle session expires and is no longer valid.
+            maxAge: 60*60,
       }
 }
 const handler = NextAuth(authOptions)

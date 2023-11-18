@@ -1,0 +1,45 @@
+
+
+.hamburgerContainer { 
+      text-transform: uppercase;
+    }
+    
+.hamburgerContainer .dropdown { 
+      display: flex;
+      justify-content:center
+}
+
+.hamburgerContainer label {
+      cursor: pointer;
+}
+
+.hamburgerContainer input[type=checkbox] + label {
+      .iconbar {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background-color: currentColor;
+            margin: 4px;
+            transition: all 0.2s;
+      }
+      .topbar {
+            transform: rotate(0);
+      }
+      .middlebar {
+            opacity: 1;
+      }
+}
+
+.hamburgerContainer input[type=checkbox]:checked + label {
+      .topbar {
+            transform: rotate(45deg);
+            transform-origin: 10% 10%;
+      }
+      .middlebar {
+            opacity: 0;
+      }
+      .bottombar {
+            transform: rotate(-45deg);
+            transform-origin: 10% 90%;
+      }
+}

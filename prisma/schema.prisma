@@ -10,78 +10,42 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id          String @id @default(uuid())
-  title       String
-  description String
-  type        String
-}
-
 model User {
-  id                        String    @id @default(uuid())
+  id                        String      @id @default(uuid())
   username                  String
-  email                     String    @unique
+  email                     String      @unique
   // password is optional bcoz of Oauth
   password                  String?
-  isVerified                Boolean   @default(false)
-  isAdmin                   Boolean   @default(false)
+  isVerified                Boolean     @default(false)
+  isAdmin                   Boolean     @default(false)
   image                     String?
   forgotpasswordtoken       String?
   forgotpasswordtokenexpiry DateTime?
   verifyemailtoken          String?
   verifyemailtokenexpiry    DateTime?
+  Preferences               Preference?
+  playlist                  PlayList[]
 }
 
-model City {
-  id         String  @id @default(uuid())
-  name       String  @unique
-  postalcode Int?
-  country_id String  @unique
-  country    Country @relation(fields: [country_id], references: [id])
-  Cinema     Cinema?
+model Preference {
+  preferenceId String @id @default(uuid())
+  userId       String @unique
+  user         User   @relation(fields: [userId], references: [id])
+  theme        String
 }
 
-model Country {
-  id   String @id @default(uuid())
-  name String
-  city City?
+model PlayList {
+  playlistId   String @id @default(uuid())
+  userId       String
+  user         User   @relation(fields: [userId], references: [id])
+  playlistName String
+  song         Song[]
+
+  @@unique([playlistName, userId], name: "UniquePlaylistNamePerUser")
 }
 
-model Cinema {
-  id         String @id @default(uuid())
-  branchname String
-  streetname String
-  city_id    String @unique
-  city       City   @relation(fields: [city_id], references: [id])
-}
-
-model Movie {
-  id       String  @id @default(uuid())
-  title    String
-  edition  Int     @default(1)
-  duration Float
-  Genre    Genre[]
-  cast     Cast[]
-
-  @@unique([title, edition])
-}
-
-model Cast {
-  id      String  @id @default(uuid())
-  name    String
-  role    Role    @relation(fields: [role_id], references: [id])
-  role_id String  @unique
-  movies  Movie[]
-}
-
-model Role {
-  id   String @id @default(uuid())
-  role String @unique
-  cast Cast?
-}
-
-model Genre {
-  id    String  @id @default(uuid())
-  name  String  @unique
-  Movie Movie[]
+model Song {
+  songId   String     @id @default(uuid())
+  songUrl  String     @unique
+  playlist PlayList[]
 }

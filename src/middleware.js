@@ -15,13 +15,12 @@ export default  withAuth(
             callbacks: {
                   authorized: ({ token }) => {
                         if(!token) return false
-                        return token.isAdmin?true:false
             },
             },
       }
 )
 
 export const config = { matcher: [
-      "/admin/:path*",
+      "/",
       "/api/admin/:path*"
 ] }

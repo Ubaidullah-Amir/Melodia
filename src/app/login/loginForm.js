@@ -41,15 +41,16 @@ const LoginForm = () => {
                         password: formData.password,
                         callbackUrl,
                       });
-                  console.log("res",res)
+                  // console.log("res",res)
                   setLoading(false)
                   if (!res?.error) {
-                        router.push(callbackUrl);
+                        router.push(res.url);
                   } else {
-                        console.log("error 1 ",res?.error)
+                        console.log("error :",res?.error)
                         setError(true)
                   }
             } catch (error) {
+                  console.log("error :",error)
                   setLoading(false)
                   setError(true)
                   toast.error("error occured")
@@ -57,7 +58,7 @@ const LoginForm = () => {
             
       }
       return (
-            <div className='  flex flex-col p-4 gap-6 justify-around'>
+            <div className=' dark:bg-gray-900 flex flex-col p-4 gap-6 justify-around'>
                   <Toaster/>
                   {loading?<p className='text-center text-blue-600'>Processing ...</p>:null}
                   {error?<p className='text-center text-red-500'>Error occured.</p>:null}
@@ -68,8 +69,8 @@ const LoginForm = () => {
                   </div>
                   <form onSubmit={onSubmit} className='flex flex-col gap-6'>
                         <div >
-                              <label htmlFor="email" className={focused.email || formData.email!=""?"absolute transition-transform -translate-y-5 border-2 border-gray-300  scale-90 bg-white inline-block translate-x-1 p-1 px-2 rounded-md":"absolute block translate-y-3 translate-x-3"}>{focused.email || formData.email!=""?"Email":"Enter Email"}</label>
-                              <input className={` w-full rounded-md p-3 text-black outline-none focus:border-2 ${error ?"border-2 focus:border-gray-400 border-red-400":"border-gray-400"}`}  type='text' id='email' onBlur={()=>{setFocused((prevState)=>{return{...prevState,email:false}})}} onFocus={()=>{setFocused((prevState)=>{return{...prevState,email:true}})}} onChange={(e)=>{setFormData((prevState)=>{return {...prevState,email:e.target.value}})}}/>
+                              <label htmlFor="email" className={focused.email || formData.email!=""?"absolute transition-transform -translate-y-5 border-2 border-gray-300  scale-90 bg-white inline-block translate-x-1 p-1 px-2 rounded-md dark:bg-gray-800":"dark:bg-gray-800 absolute block translate-y-3 translate-x-3"}>{focused.email || formData.email!=""?"Email":"Enter Email"}</label>
+                              <input className={` w-full dark:text-gray-300 dark:bg-gray-800  bg-white rounded-md p-3 text-black outline-none focus:border-2 ${error ?"border-2 focus:border-gray-400 border-red-400":"border-gray-400"}`}  type='text' id='email' onBlur={()=>{setFocused((prevState)=>{return{...prevState,email:false}})}} onFocus={()=>{setFocused((prevState)=>{return{...prevState,email:true}})}} onChange={(e)=>{setFormData((prevState)=>{return {...prevState,email:e.target.value}})}}/>
                               
                         </div>
                         <div className='relative '>
@@ -83,8 +84,8 @@ const LoginForm = () => {
                                           <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                               }
-                              <label htmlFor="password" className={focused.password || formData.password!=""?" transition-transform absolute -translate-y-5 border-2 border-gray-300 scale-90 bg-white inline-block translate-x-1 p-1 px-2 rounded-md":"absolute block translate-y-3 translate-x-3"}>Password</label>
-                              <input className={` w-full rounded-md p-3 text-black outline-none focus:border-2 ${error?"border-2 border-red-400":"border-gray-400"}`} type={passShow?"text":'password'} id='password' onBlur={()=>{setFocused((prevState)=>{return{...prevState,password:false}})}} onFocus={()=>{setFocused((prevState)=>{return{...prevState,password:true}})}} onChange={(e)=>{setFormData((prevState)=>{return {...prevState,password:e.target.value}})}}/>
+                              <label htmlFor="password" className={focused.password || formData.password!=""?" transition-transform absolute -translate-y-5 border-2 border-gray-300 scale-90 bg-white inline-block translate-x-1 p-1 px-2 rounded-md dark:bg-gray-800":"dark:bg-gray-800 absolute block translate-y-3 translate-x-3"}>Password</label>
+                              <input className={` w-full dark:bg-gray-800 dark:text-gray-300 bg-white  rounded-md p-3 text-black outline-none focus:border-2 ${error?"border-2 border-red-400":"border-gray-400"}`} type={passShow?"text":'password'} id='password' onBlur={()=>{setFocused((prevState)=>{return{...prevState,password:false}})}} onFocus={()=>{setFocused((prevState)=>{return{...prevState,password:true}})}} onChange={(e)=>{setFormData((prevState)=>{return {...prevState,password:e.target.value}})}}/>
                               
                         </div>
                         <input disabled={disableSubmit || loading} className=' py-2 text-center w-full rounded-md text-white my-2.5 bg-red-600 outline-none disabled:cursor-not-allowed disabled:bg-red-400 hover:bg-red-800 hover:cursor-pointer' type='submit'  />

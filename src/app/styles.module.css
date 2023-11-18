@@ -1,0 +1,257 @@
+
+
+.header{
+      background-color: aqua;
+}
+.header label{
+      display:flex;
+      flex-direction:column;
+      width:30px;
+      cursor:pointer;
+}
+
+.header label span{
+      background: #fff;
+      border-radius:3px;
+      height:3px;
+      margin: 3px 0;
+      transition: .4s  cubic-bezier(0.68, -0.6, 0.32, 1.6);
+
+}
+
+
+.header span:nth-of-type(1){
+      width:50%;
+      
+}
+
+.header span:nth-of-type(2){
+      width:100%;
+}
+
+
+.header span:nth-of-type(3){
+      width:75%;
+
+}
+
+
+.header input[type="checkbox"]{
+      display:none;
+}
+
+
+.header input[type="checkbox"]:checked ~ span:nth-of-type(1){
+      transform-origin:bottom;
+      transform:rotatez(45deg) translate(3px,0px)
+}
+
+
+.header input[type="checkbox"]:checked ~ span:nth-of-type(2){
+      
+      transform-origin:top;
+      transform:rotatez(-45deg)
+}
+
+
+.header input[type="checkbox"]:checked ~ span:nth-of-type(3){
+      
+      transform-origin:bottom;
+  width:50%;
+  transform: translate(15px,-5px) rotatez(45deg);
+
+}
+
+/* navbar theme toggle  */
+.toggleStyle {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.toggleStyle input[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+.toggleStyle label {
+	cursor: pointer;
+	text-indent: -9999px;
+	width: 30px;
+	height: 15px;
+	background: grey;
+	display: block;
+	border-radius: 100px;
+	position: relative;
+}
+
+.toggleStyle label:after {
+	content: '';
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 15px;
+	height: 15px;
+	background: #fff;
+	border-radius: 90px;
+	border:1px solid grey;
+	transition: 0.3s;
+}
+
+.toggleStyle input:checked + label {
+	background: #bada55;
+}
+
+.toggleStyle input:checked + label:after {
+	left: calc(100% );
+	transform: translateX(-100%);
+}
+
+.toggleStyle label:active:after {
+	width: 10px;
+}
+
+
+.scrollbarContainer {
+	/* scrollbar-width: 5px; */
+	/* scrollbar-color: #ffffff #000000; */
+	border-radius: 10px;
+}
+
+ /* Chrome, Edge, and Safari */
+.scrollbarContainer::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+.scrollbarContainer:hover::-webkit-scrollbar {
+	width: 5px;
+	height: 8px;
+}
+
+.scrollbarContainer::-webkit-scrollbar-track {
+	background: #9e9e9e;
+	border-radius: 10px;
+}
+
+.scrollbarContainer::-webkit-scrollbar-thumb {
+	background-color: #08007e77;
+	border-radius: 10px;
+	/* border: 3px solid #ffffff; */
+}
+/* bodyScorll container  */
+.bodyScrollBar {
+	/* scrollbar-width: 5px; */
+	/* scrollbar-color: #ffffff #000000; */
+	border-radius: 10px;
+}
+
+ /* Chrome, Edge, and Safari */
+.bodyScrollBar::-webkit-scrollbar {
+	width: 10px;
+	height: 5px;
+}
+.bodyScrollBar:hover::-webkit-scrollbar {
+	width: 10px;
+	height: 8px;
+}
+
+.bodyScrollBar::-webkit-scrollbar-track {
+	background: #9e9e9e;
+	border-radius: 10px;
+}
+
+.bodyScrollBar::-webkit-scrollbar-thumb {
+	background-color: #08007e77;
+	border-radius: 10px;
+	/* border: 3px solid #ffffff; */
+}
+/* Music range styles  */
+.musicRangeInput input[type=range] {
+	height: 25px;
+	-webkit-appearance: none;
+	margin: 10px 0;
+	width: 100%;
+}
+.musicRangeInput input[type=range]:focus {
+	outline: none;
+}
+.musicRangeInput input[type=range]::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 5px;
+	cursor: pointer;
+	animate: 0.2s;
+	box-shadow: 0px 0px 0px #000000;
+	background: #2497E3;
+	border-radius: 1px;
+	border: 0px solid #000000;
+}
+.musicRangeInput input[type=range]::-webkit-slider-thumb {
+	box-shadow: 0px 0px 0px #000000;
+	border: 1px solid #2497E3;
+	height: 18px;
+	width: 18px;
+	border-radius: 25px;
+	background: #A1D0FF;
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -7px;
+}
+.musicRangeInput input[type=range]:focus::-webkit-slider-runnable-track {
+	background: #2497E3;
+}
+.musicRangeInput input[type=range]::-moz-range-track {
+	width: 100%;
+	height: 5px;
+	cursor: pointer;
+	animate: 0.2s;
+	box-shadow: 0px 0px 0px #000000;
+	background: #2497E3;
+	border-radius: 1px;
+	border: 0px solid #000000;
+}
+.musicRangeInput input[type=range]::-moz-range-thumb {
+	box-shadow: 0px 0px 0px #000000;
+	border: 1px solid #2497E3;
+	height: 18px;
+	width: 18px;
+	border-radius: 25px;
+	background: #A1D0FF;
+	cursor: pointer;
+}
+.musicRangeInput input[type=range]::-ms-track {
+	width: 100%;
+	height: 5px;
+	cursor: pointer;
+	animate: 0.2s;
+	background: transparent;
+	border-color: transparent;
+	color: transparent;
+}
+.musicRangeInput input[type=range]::-ms-fill-lower {
+	background: #2497E3;
+	border: 0px solid #000000;
+	border-radius: 2px;
+	box-shadow: 0px 0px 0px #000000;
+}
+.musicRangeInput input[type=range]::-ms-fill-upper {
+	background: #2497E3;
+	border: 0px solid #000000;
+	border-radius: 2px;
+	box-shadow: 0px 0px 0px #ffffff;
+}
+.musicRangeInput input[type=range]::-ms-thumb {
+	margin-top: 1px;
+	box-shadow: 0px 0px 0px #000000;
+	border: 1px solid #2497E3;
+	height: 18px;
+	width: 18px;
+	border-radius: 25px;
+	background: #A1D0FF;
+	cursor: pointer;
+}
+.musicRangeInput input[type=range]:focus::-ms-fill-lower {
+	background: #2497E3;
+}
+.musicRangeInput input[type=range]:focus::-ms-fill-upper {
+	background: #ffffff;
+}
