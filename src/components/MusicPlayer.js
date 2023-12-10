@@ -6,7 +6,7 @@ const MusicPlayer = () => {
       const {data:session} = useSession()
       
       return (
-            <div className=' bg-white dark:bg-gray-800 fixed bottom-0 w-full h-20 flex py-2  pr-6 pl-4 items-center gap-3 z-10 rounded-md '>
+            <div className=' bg-white dark:bg-gray-800 fixed bottom-0 w-full h-20 flex py-2  pr-6 pl-4 items-center gap-3 z-50 rounded-md '>
                   <Image
                   className='rounded-[50%]   border-2 '
                         src={"/NoUserImage.jpeg"}

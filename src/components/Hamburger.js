@@ -9,7 +9,7 @@ const HamburgerMenu = () => {
       const dispatch = useDispatch()
       return (
             
-            <div className={`${styles.hamburgerContainer}   dark:bg-transparent bg-white dark:text-gray-100 text-gray-700`}>
+            <div className={`${styles.hamburgerContainer} lg:hidden  dark:bg-transparent bg-white dark:text-gray-100 text-gray-700`}>
                   <input id="dropdown"  type="checkbox" onChange={()=>dispatch(toggleHamMenu())} checked={isHamMenuOpen} style={{display:"none"}}/>
 
                   <label htmlFor="dropdown" className={styles.dropdown}>

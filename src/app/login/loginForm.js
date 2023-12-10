@@ -34,7 +34,7 @@ const LoginForm = () => {
             try {
                   e.preventDefault();
                   setLoading(true)
-                  console.log(formData)
+                  // console.log(formData)
                   const res = await signIn("credentials", {
                         redirect: false,
                         email: formData.email,

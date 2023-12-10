@@ -11,18 +11,15 @@ const Navbar = () => {
       const dispatch = useDispatch()
       const session = useSession({required:true})
       const isHamMenuOpen = useSelector(state=>state.ui.isHamMenuOpen)
-      console.log("isHamMenuOpen",isHamMenuOpen)
-
-
       const stylesColorTheme = "bg-white dark:bg-gray-800"
-      const stylesLargeScreen=" lg:static lg:w-64 flex flex-col items-center gap-10 p-2 rounded-lg"
+      const stylesLargeScreen=" lg:static lg:w-64 flex flex-col items-center gap-10 p-2 rounded-lg lg:block"
       // medium screen is default styles
-      const stylesMediumScreen=` absolute  z-50 w-60 h-full ${!isHamMenuOpen?"hidden":null}`
+      const stylesMediumScreen=` absolute  z-40 w-60 h-full ${!isHamMenuOpen?"hidden":null}`
 
 
       return (
             <>
-            <div className={`absolute  z-40 w-screen h-full  bg-gray-900 opacity-25 lg:hidden ${!isHamMenuOpen?"hidden":null}`}
+            <div className={`absolute  z-30 w-screen h-full  bg-gray-900 opacity-25 lg:hidden ${!isHamMenuOpen?"hidden":null}`}
                   onClick={() =>dispatch(toggleHamMenu())}
             ></div>
             <div className={`${stylesColorTheme} ${stylesLargeScreen} ${stylesMediumScreen} `}>
