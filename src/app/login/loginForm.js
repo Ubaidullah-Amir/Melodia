@@ -6,6 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import Image from 'next/image';
 import { signIn} from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import ResetPasswordToken from './resetPasswordModal';
 const LoginForm = () => {
       const router = useRouter()
       const [formData,setFormData]=useState({
@@ -60,6 +61,7 @@ const LoginForm = () => {
       return (
             <div className=' dark:bg-gray-900 flex flex-col p-4 gap-6 justify-around'>
                   <Toaster/>
+                  
                   {loading?<p className='text-center text-blue-600'>Processing ...</p>:null}
                   {error?<p className='text-center text-red-500'>Error occured.</p>:null}
                   <p className='text-right text-xs'>Not a member?<Link className='text-blue-500 ' href="/register">Register Now</Link></p>
@@ -91,9 +93,10 @@ const LoginForm = () => {
                         <input disabled={disableSubmit || loading} className=' py-2 text-center w-full rounded-md text-white my-2.5 bg-red-600 outline-none disabled:cursor-not-allowed disabled:bg-red-400 hover:bg-red-800 hover:cursor-pointer' type='submit'  />
                   
                   </form>
-                  <p className='text-right text-sm'>
-                        <Link href="/resetPasswordToken" >Recovery Password</Link>
-                  </p>
+                  <div className='text-right text-sm' >
+                        {/* <Link href="/resetPasswordToken" >Recovery Password</Link> */}
+                        <ResetPasswordToken/>
+                  </div>
                   <p className='text-center text-xs'>
                         Or continue with
                   </p>

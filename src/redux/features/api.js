@@ -12,6 +12,13 @@ export const MelodiaApi = createApi({
       query: () => "user",
       providesTags:["user"]
     }),
+    postResetPasswordEmail: builder.mutation({
+      query: (userEmail) => ({
+            url:"resetPasswordEmail",
+            method: "POST",
+            body: userEmail
+      }),
+    }),
     postUser: builder.mutation({
       query: (user) => ({
             url:"user",
@@ -25,4 +32,4 @@ export const MelodiaApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetUsersQuery,usePostUserMutation } = MelodiaApi
+export const {useGetUsersQuery,usePostResetPasswordEmailMutation,usePostUserMutation} = MelodiaApi
