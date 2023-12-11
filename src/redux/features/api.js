@@ -19,6 +19,13 @@ export const MelodiaApi = createApi({
             body: userEmail
       }),
     }),
+    verifyResetPassToken: builder.mutation({
+      query: (postObj) => ({
+            url:"verifyResetPasswordToken",
+            method: "POST",
+            body: postObj   //{email,newpassword,token}
+      }),
+    }),
     postUser: builder.mutation({
       query: (user) => ({
             url:"user",
@@ -32,4 +39,4 @@ export const MelodiaApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {useGetUsersQuery,usePostResetPasswordEmailMutation,usePostUserMutation} = MelodiaApi
+export const {useGetUsersQuery,usePostResetPasswordEmailMutation,usePostUserMutation,useVerifyResetPassTokenMutation} = MelodiaApi

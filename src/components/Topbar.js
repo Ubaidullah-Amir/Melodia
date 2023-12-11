@@ -5,6 +5,7 @@ import HamburgerMenu from './Hamburger';
 const Topbar = ({toggleStyle}) => {
       const [showSettings,setShowSettings]=useState(false)
       const {theme, setTheme} = useTheme()
+      // console.log(theme)
       return (
             <div className='  flex h-14 justify-between p-3 gap-3'>
                   <div className='flex items-center flex-shrink basis-full'>
@@ -19,7 +20,8 @@ const Topbar = ({toggleStyle}) => {
                               <div className='flex justify-between  border-b-2 py-2'>
                                     <p className='text-xs'>Dark Mode</p>
                                     <div className={toggleStyle}>
-                                          <input type="checkbox" id="darkModeSwitch" onClick={() => setTheme(theme === 'dark'? 'light' : 'dark')}/>
+                                          <input type="checkbox" id="darkModeSwitch" checked={theme === "dark" ?true : false}
+                                                onClick={(e) =>setTheme(e.target.checked? 'dark':'light'  )}/>
                                           <label htmlFor="darkModeSwitch">Toggle</label>
                                     </div>
                                     

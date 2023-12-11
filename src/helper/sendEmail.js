@@ -20,7 +20,7 @@ export async function sendEmail(userID,email,emailType) {
                         },
                   });
             }else if(emailType === EMAIL_TYPE_FORGETPASSWORD){
-                  await prisma.user.update({
+                  const updatedUser = await prisma.user.update({
                         where: {
                               id: userID, // Specify the user ID to update
                         },
@@ -43,7 +43,8 @@ export async function sendEmail(userID,email,emailType) {
                   to: email, // receiver address
                   subject: emailType===EMAIL_TYPE_VERIFY?"Verify Email":"Reset Password", // Subject line
                   text: "Hello world?", // plain text body
-                  html: `<p>Click <a href=${emailType===EMAIL_TYPE_VERIFY?`${process.env.DOMAIN_URL}/verifyToken?token=${hashedToken}`:`${process.env.DOMAIN_URL}/resetToken?token=${hashedToken}`}>Here</a> to ${emailType===EMAIL_TYPE_VERIFY?"verify email":"to reset password"}</p>`, // html body
+                  html: `<p>"Please note, the token provided is valid for one hour. Requesting a new email will render the previous token invalid. If the token has expired, password changes cannot be processed for security reasons."
+                  Click <a href=${emailType===EMAIL_TYPE_VERIFY?`${process.env.DOMAIN_URL}/verifyEmailToken?token=${hashedToken}`:`${process.env.DOMAIN_URL}/resetPasswordToken?token=${hashedToken}&email=${email}`}>Here</a> to ${emailType===EMAIL_TYPE_VERIFY?"verify email":"to reset password"}</p>`, // html body
             }
             const mailResponse = await transport.sendMail(emailOptions)
             console.log("Message sent: %s", mailResponse.messageId)

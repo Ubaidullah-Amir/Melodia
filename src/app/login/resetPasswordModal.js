@@ -54,6 +54,7 @@ const ResetPasswordToken = () => {
                   style={ModalStyles}
             >
                   <div className='flex flex-col justify-around h-full p-4 dark:bg-gray-900'>
+                        {isLoading?<p className='text-gray-700'>Please wait we are sending the email</p>:null}
                         <p className='text-center font-bold'>Forgotten your password?</p>
                         {/* lock svg */}
                         <svg style={{width:"30%",marginInline:"auto"}} xmlns="http://www.w3.org/2000/svg" fill='blue'  viewBox="0 0 50 50">
