@@ -1,98 +1,28 @@
-"use client"
-import React from 'react';
-import { useSession } from 'next-auth/react';
-import Layout from '../components/MainLayout'
+
+// import { useSession } from 'next-auth/react';
 import styles from '@/app/styles.module.css'
+import TopAlbums from '@/components/TopAlbums';
 import Topbar from '@/components/Topbar';
 import Image from 'next/image';
 
-function Home(){
-  
+
+const googleApiURL = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyCc5APrK1-cLDnqrm5-5tEEr78OoTKaOAE&q=beyonce&type=video&part=snippet&videoCategoryId=10&maxResults=20"
+
+async function getAlbumsData(){
+  const response = await fetch(googleApiURL)
+  const data  = await response.json()
+  return data
+}
+
+async function Home(){
+  const albumsData = await getAlbumsData()
   return (
-    <Layout >
+    // <Layout >
       <div className='  rounded-md p-3'>
         <Topbar toggleStyle={styles.toggleStyle}/>
-        <h1 className='p-3 font-bold'>Top Albums</h1>
-        <div  className={`${styles.scrollbarContainer} snap-mandatory snap-x gap-2 flex min-h-[200px] overflow-x-scroll py-2`}>
-          <div className='snap-center shrink-0'>
-            <Image
-                  src="/loginImage.jpg"
-                  className="w-52 h-52 rounded object-cover shadow-lg dark:shadow-gray-600  "
-                  width={400}
-                  height={400}
-                  alt="Albumn picture"
-            />
-            <p className='font-semibold pt-2'>Albumn Name</p>
-            <p className='text-gray-400 text-sm'>Albumn Name Information</p>
-          </div>
-          <div className='snap-center shrink-0'>
-            <Image
-                  src="/loginImage.jpg"
-                  className="w-52 h-52 rounded object-cover shadow-lg dark:shadow-gray-600 "
-                  width={400}
-                  height={400}
-                  alt="Albumn picture"
-            />
-            <p className='font-semibold pt-2'>Albumn Name</p>
-            <p className='text-gray-400 text-sm'>Albumn Name Information</p>
-          </div>
-          <div className='snap-center shrink-0'>
-            <Image
-                  src="/loginImage.jpg"
-                  className="w-52 h-52 rounded object-cover shadow-lg dark:shadow-gray-600  "
-                  width={400}
-                  height={400}
-                  alt="Albumn picture"
-            />
-            <p className='font-semibold pt-2'>Albumn Name</p>
-            <p className='text-gray-400 text-sm'>Albumn Name Information</p>
-          </div>
-          <div className='snap-center shrink-0'>
-            <Image
-                  src="/loginImage.jpg"
-                  className="w-52 h-52 rounded object-cover shadow-lg dark:shadow-gray-600  "
-                  width={400}
-                  height={400}
-                  alt="Albumn picture"
-            />
-            <p className='font-semibold pt-2'>Albumn Name</p>
-            <p className='text-gray-400 text-sm'>Albumn Name Information</p>
-          </div>
-          <div className='snap-center shrink-0'>
-            <Image
-                  src="/loginImage.jpg"
-                  className="w-52 h-52 rounded object-cover shadow-lg dark:shadow-gray-600  "
-                  width={400}
-                  height={400}
-                  alt="Albumn picture"
-            />
-            <p className='font-semibold pt-2'>Albumn Name</p>
-            <p className='text-gray-400 text-sm'>Albumn Name Information</p>
-          </div>
-          <div className='snap-center shrink-0'>
-            <Image
-                  src="/loginImage.jpg"
-                  className="w-52 h-52 rounded object-cover shadow-lg dark:shadow-gray-600  "
-                  width={400}
-                  height={400}
-                  alt="Albumn picture"
-            />
-            <p className='font-semibold pt-2'>Albumn Name</p>
-            <p className='text-gray-400 text-sm'>Albumn Name Information</p>
-          </div>
-          <div className='snap-center shrink-0'>
-            <Image
-                  src="/loginImage.jpg"
-                  className="w-52 h-52 rounded object-cover shadow-lg dark:shadow-gray-600  "
-                  width={400}
-                  height={400}
-                  alt="Albumn picture"
-            />
-            <p className='font-semibold pt-2'>Albumn Name</p>
-            <p className='text-gray-400 text-sm'>Albumn Name Information</p>
-          </div>
-          
-        </div>
+        <TopAlbums styles={styles} albumsData={albumsData}/>
+
+        
         <div className='flex gap-3 mt-3 shadow-lg p-3 pb-10 rounded-md'>
           
           <div className= 'w-1/2 h-96 overflow-y-hidden'>
@@ -274,7 +204,7 @@ function Home(){
         </div>
         
       </div>
-    </Layout>
+    // </Layout>
   );
 };
 

@@ -112,6 +112,7 @@
 }
 
 
+
 .scrollbarContainer {
 	/* scrollbar-width: 5px; */
 	/* scrollbar-color: #ffffff #000000; */
@@ -125,7 +126,7 @@
 }
 .scrollbarContainer:hover::-webkit-scrollbar {
 	width: 5px;
-	height: 8px;
+	height: 6px;
 }
 
 .scrollbarContainer::-webkit-scrollbar-track {

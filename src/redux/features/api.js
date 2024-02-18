@@ -6,7 +6,7 @@ const baseUrl = "http://localhost:3000/api/"
 export const MelodiaApi = createApi({
   reducerPath: 'MelodiaApi',
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl}),
-  tagTypes: ['user'],
+  tagTypes: ['user',"TopAlbumns"],
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: () => "user",
@@ -34,9 +34,15 @@ export const MelodiaApi = createApi({
       }),
       invalidatesTags: ["user"],
     }),
+    
   }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {useGetUsersQuery,usePostResetPasswordEmailMutation,usePostUserMutation,useVerifyResetPassTokenMutation} = MelodiaApi
+export const {
+  useGetUsersQuery,
+  usePostResetPasswordEmailMutation,
+  usePostUserMutation,
+  useVerifyResetPassTokenMutation,
+} = MelodiaApi

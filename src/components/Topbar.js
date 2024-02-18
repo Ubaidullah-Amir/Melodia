@@ -1,3 +1,4 @@
+"use client"
 import { useTheme } from 'next-themes';
 import React, { useState } from 'react';
 import HamburgerMenu from './Hamburger';
@@ -7,13 +8,13 @@ const Topbar = ({toggleStyle}) => {
       const {theme, setTheme} = useTheme()
       // console.log(theme)
       return (
-            <div className='  flex h-14 justify-between p-3 gap-3'>
-                  <div className='flex items-center flex-shrink basis-full'>
-                        <label htmlFor='search'>
-                              <svg  className="h-5 w-5 " version="1.1" viewBox="0 0 512 512"  xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"><path fill="currentColor" d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3  c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2  c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2  c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"/></svg>
-                        </label>
-                        <input id='search' className="bg-transparent shadow-md focus:shadow-lg dark:focus:border-b-2 dark:bg-gray-900 dark:rounded-none dark:  rounded-full p-2 px-3 flex-shrink basis-full focus:outline-none "  placeholder='Search for any song,artist etc...'/>
-                  </div>
+            <div className='  flex h-14 justify-between  items-center p-3 gap-3'>
+                  {/* <div className='flex items-center flex-shrink basis-full'> */}
+                  <label className='hidden h-5 w-5 sm:block' htmlFor='search'>
+                        <svg  className="h-full w-full " version="1.1" viewBox="0 0 512 512"  xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"><path fill="currentColor" d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3  c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2  c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2  c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"/></svg>
+                  </label>
+                  <input id='search' className="bg-transparent  shadow-md focus:shadow-lg dark:focus:border-b-2 dark:bg-gray-900 dark:rounded-none dark:  rounded-full p-2 px-3  min-w-[100px] basis-full focus:outline-none "  placeholder='Search for any song,artist etc...'/>
+                  {/* </div> */}
                   <div className='flex gap-2 items-center relative'>
                         {showSettings?
                         <div className='absolute bg-white w-32 bg-inherit top-full translate-y-3 right-0 p-3 dark:bg-blue-950 border-2 shadow-md'>
@@ -21,7 +22,7 @@ const Topbar = ({toggleStyle}) => {
                                     <p className='text-xs'>Dark Mode</p>
                                     <div className={toggleStyle}>
                                           <input type="checkbox" id="darkModeSwitch" checked={theme === "dark" ?true : false}
-                                                onClick={(e) =>setTheme(e.target.checked? 'dark':'light'  )}/>
+                                                onChange={(e) =>setTheme(e.target.checked? 'dark':'light'  )}/>
                                           <label htmlFor="darkModeSwitch">Toggle</label>
                                     </div>
                                     
