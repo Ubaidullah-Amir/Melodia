@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function UseYouTubeComp(playerRef){
-
+    console.log(playerRef)
 
     const dispatch = useDispatch()
 

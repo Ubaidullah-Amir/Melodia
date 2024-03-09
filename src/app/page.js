@@ -4,29 +4,28 @@ import styles from '@/app/styles.module.css'
 import TopAlbums from '@/components/TopAlbums';
 import Topbar from '@/components/Topbar';
 import Image from 'next/image';
+import googleApiURL from '@/lib/youtubeDataApi';
 
 
-const googleApiURL = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyCc5APrK1-cLDnqrm5-5tEEr78OoTKaOAE&q=beyonce&type=video&part=snippet&videoCategoryId=10&maxResults=20"
-
-async function getAlbumsData(){
+async function getPopularSongs(){
   const response = await fetch(googleApiURL)
   const data  = await response.json()
   return data
 }
 
 async function Home(){
-  const albumsData = await getAlbumsData()
+  const popularSongs = await getPopularSongs()
   return (
     // <Layout >
       <div className='  rounded-md p-3'>
         <Topbar toggleStyle={styles.toggleStyle}/>
-        <TopAlbums styles={styles} albumsData={albumsData}/>
+        <TopAlbums styles={styles} popularSongs={popularSongs}/>
 
         
         <div className='flex gap-3 mt-3 shadow-lg p-3 pb-10 rounded-md'>
           
           <div className= 'w-1/2 h-96 overflow-y-hidden'>
-            <h2 className='p-3 font-bold'>Popular Songs</h2>
+            <h2 className='p-3 font-bold'>Songs in queue</h2>
             <div className={`${styles.scrollbarContainer}  flex flex-col gap-2 snap-mandatory snap-x h-96  overflow-y-scroll pb-20`}>
             {/* song card */}
             <div className='flex py-2 px-4  rounded-full items-center bg-white dark:bg-blue-950'>

@@ -17,7 +17,7 @@ const Topbar = ({toggleStyle}) => {
                   {/* </div> */}
                   <div className='flex gap-2 items-center relative'>
                         {showSettings?
-                        <div className='absolute bg-white w-32 bg-inherit top-full translate-y-3 right-0 p-3 dark:bg-blue-950 border-2 shadow-md'>
+                        <div className='absolute z-10 bg-white w-32 bg-inherit top-full translate-y-3 right-0 p-3 dark:bg-blue-950 border-2 shadow-md'>
                               <div className='flex justify-between  border-b-2 py-2'>
                                     <p className='text-xs'>Dark Mode</p>
                                     <div className={toggleStyle}>
