@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function UseYouTubeComp(playerRef){
-    console.log(playerRef)
-
     const dispatch = useDispatch()
 
     // redux states
@@ -16,24 +14,14 @@ export default function UseYouTubeComp(playerRef){
     const isPlaying = useSelector(state=>state.musicPlayer.isPlayerPlaying)
     const videoId = useSelector(state=>state.musicPlayer.videoId)
 
-    // console.log("isPlayerReady",isPlayerReady)
-    // console.log("currentTime",currentTime)
-    // console.log("isPlaying",isPlaying)
-    // console.log("videoId",videoId)
-
-
-
-    // const [playerIsReady,setPlayerIsReady] = useState(false)
-    // const [currentTime,setCurrentTime] = useState(0)
-    // const [isPlaying,setIsPlaying] = useState(false)
-
-
     // after changing the videoID thorugh other components 
     useEffect(()=>{
         if (videoId){
             playerRef.current?.loadVideoById(videoId)
         }
     },[videoId])
+
+    
 
 
     useEffect(() =>{
@@ -68,6 +56,10 @@ export default function UseYouTubeComp(playerRef){
             dispatch(changeIsPlayerPlaying(true))
         }
        
+    }
+
+    function onEnd(event ){
+        console.log("Ending video")
     }
 
 
@@ -108,6 +100,7 @@ export default function UseYouTubeComp(playerRef){
         return playerRef.current?.getDuration()
 
     }
+    
     const durationInSec = (getDuration()/60).toFixed(2)
     
     return ({
@@ -122,7 +115,8 @@ export default function UseYouTubeComp(playerRef){
         opts,
         currentTime,
         isPlaying,
-        durationInSec
+        durationInSec,
+        onEnd
     })
 
 }

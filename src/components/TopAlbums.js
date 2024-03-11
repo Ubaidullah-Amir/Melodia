@@ -1,5 +1,7 @@
 
 "use client"
+import Queue from '@/helper/QueueFunction';
+import { addSongToQueueState, setQueueToStop } from '@/redux/features/queueList-slice';
 import { changeSelectedVideoInfo, changeVideoId } from '@/redux/features/music-slice';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
@@ -75,8 +77,18 @@ function SongCard({imageURL,title,publishedAt,channelTitle,videoId}) {
                         <p className='text-xs'>Add to Playlist</p>
                     </div>
                     <hr />
-                    <div className='p-2 cursor-pointer hover:bg-slate-300 hover:bg-opacity-25'>
-                        <p className='text-xs'>Add to Playlist</p>
+                    <div className='p-2 cursor-pointer hover:bg-slate-300 hover:bg-opacity-25'
+                    onClick={()=>{
+                        const songDetails = {
+                            videoId,
+                            videoTitle:clean_title,
+                            videoURL:imageURL
+                        }
+                        Queue.addSaveSongToStorage(songDetails)
+                        dispatch(addSongToQueueState(songDetails))
+                    }}
+                    >
+                        <p className='text-xs'>Add to Queue</p>
                     </div>
                     
             </div>
@@ -89,6 +101,7 @@ function SongCard({imageURL,title,publishedAt,channelTitle,videoId}) {
                 height={400}
                 alt="song picture"
                 onClick={()=>{
+                    dispatch(setQueueToStop())
                     // changing the videoId which triggers useEffect in useyoutubecomp
                     dispatch(changeVideoId(videoId))
                     // changing the info of video just for displaying
