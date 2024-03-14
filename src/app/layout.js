@@ -4,10 +4,8 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]/route'
-import styles from '@/app/styles.module.css'
 import { ReduxProvider } from '@/redux/provider'
-import Navbar from '@/components/Navbar'
-import MusicPlayer from '@/components/MusicPlayer'
+import styles from "./styles.module.css"
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -19,20 +17,15 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session =await getServerSession(authOptions)
-  const themeStyles =  "dark:bg-gray-700  bg-gray-100 relative"
-  const largeStyles =" lg:grid lg:grid-cols-[250px__minmax(70%,100%)] lg:grid-rows-[1fr]  lg:pl-4 lg:pt-4 lg:pb-24"
-  const mediumStyles = "flex flex-col gap-3"
+
   return (
     <html lang="en">
       <body className={`${inter.className} ${styles.bodyScrollBar}`}>
         <SessionProvider session={session}>
           <ReduxProvider>
             <ThemeProvider enableSystem={false} attribute='class'>
-            <div className={`${themeStyles} ${mediumStyles}  ${largeStyles}`}>
-              <Navbar />
+            
               {children}
-              <MusicPlayer />
-            </div>
             </ThemeProvider>
           </ReduxProvider>
         </SessionProvider>

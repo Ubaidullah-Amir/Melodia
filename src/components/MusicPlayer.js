@@ -1,12 +1,11 @@
 "use client"
 import React, { useRef } from 'react';
 import Image from 'next/image';
-import styles from '@/app/styles.module.css'
 import UseYouTubeComp from '@/customHooks/useYoutubeComp';
 import YouTube from 'react-youtube';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProperNextIndexQueueState } from '@/redux/features/queueList-slice';
-const MusicPlayer = () => {
+const MusicPlayer = ({styles}) => {
       //testing
       const isQueuePlaying = useSelector(state=>state.Queue.isQueuePlaying) 
       const dispatch = useDispatch()

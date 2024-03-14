@@ -35,9 +35,9 @@ function TopAlbums({popularSongs,styles}) {
 const threeDotSvg = ()=>(
 <svg className='w-4 h-4' data-name="Design Convert" id="Design_Convert" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
             
-<path class="cls-1" d="M32,17a5,5,0,1,1,5-5A5,5,0,0,1,32,17Zm0-8a3,3,0,1,0,3,3A3,3,0,0,0,32,9Z"/>
-<path class="cls-1" d="M32,37a5,5,0,1,1,5-5A5,5,0,0,1,32,37Zm0-8a3,3,0,1,0,3,3A3,3,0,0,0,32,29Z"/>
-<path class="cls-1" d="M32,57a5,5,0,1,1,5-5A5,5,0,0,1,32,57Zm0-8a3,3,0,1,0,3,3A3,3,0,0,0,32,49Z"/>
+<path  d="M32,17a5,5,0,1,1,5-5A5,5,0,0,1,32,17Zm0-8a3,3,0,1,0,3,3A3,3,0,0,0,32,9Z"/>
+<path  d="M32,37a5,5,0,1,1,5-5A5,5,0,0,1,32,37Zm0-8a3,3,0,1,0,3,3A3,3,0,0,0,32,29Z"/>
+<path  d="M32,57a5,5,0,1,1,5-5A5,5,0,0,1,32,57Zm0-8a3,3,0,1,0,3,3A3,3,0,0,0,32,49Z"/>
 </svg>
 )
 
