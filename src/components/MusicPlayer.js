@@ -33,7 +33,7 @@ const MusicPlayer = ({styles}) => {
       return (
             <>
             
-            <div className=' bg-white dark:bg-gray-800  fixed bottom-0 w-[100vw] md:max-h-[10vh] max-h-[20vh] py-0 flex md:flex-row flex-col  md:py-2  pr-6 pl-4 items-center justify-between  z-50 rounded-md '>
+            <div className={`${!videoTitle && "hidden"} bg-white dark:bg-gray-800  fixed bottom-0 w-[100vw] md:max-h-[10vh] max-h-[20vh] py-0 flex md:flex-row flex-col  md:py-2  pr-6 pl-4 items-center justify-between  z-50 rounded-md `}>
             <div className={`${styles.musicRangeInput} md:hidden min-w-[100px] grow w-[100%] shrink-0 flex items-center gap-1 `} >
                         <input className='w-full' type='range' 
                         value={currentTime}  
@@ -129,6 +129,9 @@ const MusicPlayer = ({styles}) => {
                         }}>Next Song</button>:null}
                   
                   </div>
+            
+            
+            
                   </>
       );
 };

@@ -6,6 +6,7 @@ import { changeSelectedVideoInfo, changeVideoId } from '@/redux/features/music-s
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import PlaylistModal from './PlaylistModal';
 
 
 function TopAlbums({popularSongs,styles}) {
@@ -46,6 +47,11 @@ function SongCard({imageURL,title,publishedAt,channelTitle,videoId}) {
     const dispatch = useDispatch()
     const menuRef = useRef(null);
 
+    // PlaylistModal menu
+    const [isModalOpen,setModalOpen] = useState(false) 
+    const closeModal = ()=>{setModalOpen(false)}
+    const OpenModal = ()=>{setModalOpen(true)}
+
     useEffect(() => {
         const handleClickOutside = (event) => {
           // Close the menu if clicked outside of it
@@ -68,11 +74,13 @@ function SongCard({imageURL,title,publishedAt,channelTitle,videoId}) {
 
     return (
     <div className={`group relative snap-center w-52 shrink-0`} >
-        
+        <PlaylistModal  isModalOpen={isModalOpen} closeModal={closeModal}/>
         {showCardMenu?
             <div ref={menuRef} className='absolute z-10 bg-white w-32 bg-inherit top-52 right-11 p-1 dark:bg-blue-950 border-2 shadow-md'>
                     <div className='p-2 cursor-pointer hover:bg-slate-300 hover:bg-opacity-25'
-                        onClick={()=>{console.log("click",videoId)}}
+                        onClick={()=>{
+                            OpenModal()
+                        }}
                     >
                         <p className='text-xs'>Add to Playlist</p>
                     </div>
