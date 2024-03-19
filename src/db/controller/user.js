@@ -5,6 +5,15 @@ export async function OauthCreateUser({email,name,image}){
             const user = await prisma.user.findFirst({
                   where:{
                         email
+                  },
+                  select:{
+                        email:true,
+                        username:true,
+                        isVerified:true,
+                        isAdmin:true,
+                        image:true,
+                        id:true,
+                        password:true
                   }
             })
             if(!user){
@@ -17,10 +26,13 @@ export async function OauthCreateUser({email,name,image}){
                               image:image
                         },
                         select:{
-                              id:true,
-                              username:true,
                               email:true,
-                              image:true
+                              username:true,
+                              isVerified:true,
+                              isAdmin:true,
+                              image:true,
+                              id:true,
+                              password:true
                         }
                   })
                   console.log("user created",newUser)
@@ -29,8 +41,33 @@ export async function OauthCreateUser({email,name,image}){
             console.log("user exists")
             return user
       } catch (error) {
+            console.log("error in next-auth " ) 
             throw new Error(error.message) 
       }
       
           
+}
+
+export async function getUserInJWT(email) {
+      try {
+            const user = await prisma.user.findFirst({
+                  where:{
+                        email
+                  },
+                  select:{
+                        email:true,
+                        username:true,
+                        isVerified:true,
+                        isAdmin:true,
+                        image:true,
+                        id:true,
+                        password:true
+                  }
+            })
+            return user
+      }catch(error){
+            console.log(error.message)
+            throw new Error("User not found") 
+
+      }
 }

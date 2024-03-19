@@ -45,8 +45,9 @@ model PlayList {
 }
 
 model Song {
-  songId   String     @id @default(uuid())
-  songUrl  String     @unique
-  songName String     @unique
-  playlist PlayList[]
+  songId    String     @id @default(uuid())
+  youtubeId String     @unique
+  songUrl   String     @unique
+  songName  String     @unique
+  playlist  PlayList[]
 }

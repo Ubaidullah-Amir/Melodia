@@ -7,25 +7,38 @@ import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PlaylistModal from './PlaylistModal';
+import { useSession } from 'next-auth/react';
+import { UNAUTHENTICATED } from '@/helper/ImportantStrings';
 
 
 function TopAlbums({popularSongs,styles}) {
-    
+    const {status:loggedInStatus} = useSession()
+    const disablePlaylistButton = loggedInStatus === UNAUTHENTICATED
+
     return (
         <>
             <h1 className='p-3 font-bold'>Popular Songs</h1>
             <div  className={`${styles.scrollbarContainer}  gap-2 flex min-h-[200px] overflow-x-scroll py-2`}>
                 {
-                    popularSongs.items?.map((item)=>(
-                        <SongCard 
-                            imageURL = {item.snippet.thumbnails.high.url}
-                            title = {item.snippet.title}
-                            publishedAt = {item.snippet.publishedAt}
-                            channelTitle = {item.snippet.channelTitle}
-                            videoId = {item.id.videoId}
+                    popularSongs.items?.map((item)=>{
+                        
+                        // Use a regular expression to remove anything within brackets
+                        let clean_title = item.snippet.title.replace(/\([^)]*\)|\[[^\]]*\]/g, '');
+
+                        const songDetail = {
+                            imageURL :item.snippet.thumbnails.high.url,
+                            title :clean_title,
+                            publishedAt :item.snippet.publishedAt,
+                            channelTitle :item.snippet.channelTitle,
+                            videoId :item.id.videoId
+                        }
+                        return (<SongCard 
+                            key={item.id.videoId}
+                            songDetail={songDetail}
+                            disablePlaylistButton = {disablePlaylistButton}
                             
-                        />
-                    ))
+                        />)
+                    })
                 }
             </div>
         </>
@@ -42,7 +55,9 @@ const threeDotSvg = ()=>(
 </svg>
 )
 
-function SongCard({imageURL,title,publishedAt,channelTitle,videoId}) {
+function SongCard({songDetail,disablePlaylistButton}) {
+    const {imageURL,title,publishedAt,channelTitle,videoId} = songDetail
+    
     const [showCardMenu,setShowCardMenu] = useState(false);
     const dispatch = useDispatch()
     const menuRef = useRef(null);
@@ -51,6 +66,7 @@ function SongCard({imageURL,title,publishedAt,channelTitle,videoId}) {
     const [isModalOpen,setModalOpen] = useState(false) 
     const closeModal = ()=>{setModalOpen(false)}
     const OpenModal = ()=>{setModalOpen(true)}
+    
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -69,16 +85,22 @@ function SongCard({imageURL,title,publishedAt,channelTitle,videoId}) {
         };
       }, []);
 
-    // Use a regular expression to remove anything within brackets
-    let clean_title = title.replace(/\([^)]*\)|\[[^\]]*\]/g, '');
-
+    const songDetails = {
+        youtubeId:videoId,
+        songName:title,
+        songUrl:imageURL
+    }
     return (
     <div className={`group relative snap-center w-52 shrink-0`} >
-        <PlaylistModal  isModalOpen={isModalOpen} closeModal={closeModal}/>
+        <PlaylistModal songDetails={songDetails} isModalOpen={isModalOpen} closeModal={closeModal}/>
         {showCardMenu?
             <div ref={menuRef} className='absolute z-10 bg-white w-32 bg-inherit top-52 right-11 p-1 dark:bg-blue-950 border-2 shadow-md'>
-                    <div className='p-2 cursor-pointer hover:bg-slate-300 hover:bg-opacity-25'
+                    <div className={`${disablePlaylistButton?" bg-gray-500":"hover:bg-slate-300  hover:bg-opacity-25"}  p-2  cursor-pointer `}
                         onClick={()=>{
+                            if(disablePlaylistButton){
+                                alert("Please login to add songs to playlist")
+                                return
+                            }
                             OpenModal()
                         }}
                     >
@@ -89,7 +111,7 @@ function SongCard({imageURL,title,publishedAt,channelTitle,videoId}) {
                     onClick={()=>{
                         const songDetails = {
                             videoId,
-                            videoTitle:clean_title,
+                            videoTitle:title,
                             videoURL:imageURL
                         }
                         Queue.addSaveSongToStorage(songDetails)
@@ -114,15 +136,16 @@ function SongCard({imageURL,title,publishedAt,channelTitle,videoId}) {
                     dispatch(changeVideoId(videoId))
                     // changing the info of video just for displaying
                     dispatch(changeSelectedVideoInfo({
-                        videoTitle:clean_title,
+                        videoTitle:title,
                         videoURL:imageURL
                     }))
                     }}
         />
         <div className='flex '>
-            <p className='grow-0  font-semibold pt-2'>{clean_title}</p>
+            <p className='grow-0  font-semibold pt-2'>{title}</p>
             <div className={`group-hover:bg-gray-400 mt-1 p-3 w-auto h-10 rounded-full  group-hover:block hover:cursor-pointer`}
-                onClick={()=>{setShowCardMenu((prevState)=>!prevState)}}
+                onClick={()=>{
+                    setShowCardMenu((prevState)=>!prevState)}}
             > 
             {threeDotSvg()}
             </div>

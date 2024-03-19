@@ -1,6 +1,7 @@
 import prisma from "@/db/dbConfig"
 import { RESET_PASSWORD_TOKEN_EXPIRED } from "@/helper/ImportantStrings";
 import { NextResponse } from "next/server"
+import bcrypt from "bcrypt"
 
 export async function  POST(req) {
       try {
@@ -20,13 +21,16 @@ export async function  POST(req) {
             if (!user) {
                   return NextResponse.json({error:"reset password token has expired",errorCode:RESET_PASSWORD_TOKEN_EXPIRED },{status:404})
             }
+            const saltRounds = 10;
+            const hashPassword = await bcrypt.hash(newPassword, saltRounds);
+
             // updating the password
             await prisma.user.update({
                   where: {
                     id: user.id,
                   },
                   data: {
-                    password: newPassword, // Update the password
+                    password: hashPassword, // Update the password
                     forgotpasswordtoken: null,
                     forgotpasswordtokenexpiry:null
                   },

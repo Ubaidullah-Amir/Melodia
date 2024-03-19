@@ -6,12 +6,20 @@ const baseUrl = "http://localhost:3000/api/"
 export const MelodiaApi = createApi({
   reducerPath: 'MelodiaApi',
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl}),
-  tagTypes: ['user',"TopAlbumns"],
+  tagTypes: ['user',"playlist"],
   endpoints: (builder) => ({
-    getUsers: builder.query({
-      query: () => "user",
-      providesTags:["user"]
-    }),
+    // getUsers: builder.query({
+    //   query: () => "user",
+    //   providesTags:["user"]
+    // }),
+    // postUser: builder.mutation({
+    //   query: (user) => ({
+    //         url:"user",
+    //         method: "POST",
+    //         body: user
+    //   }),
+    //   invalidatesTags: ["user"],
+    // }),
     postResetPasswordEmail: builder.mutation({
       query: (userEmail) => ({
             url:"resetPasswordEmail",
@@ -26,14 +34,23 @@ export const MelodiaApi = createApi({
             body: postObj   //{email,newpassword,token}
       }),
     }),
-    postUser: builder.mutation({
-      query: (user) => ({
-            url:"user",
-            method: "POST",
-            body: user
-      }),
-      invalidatesTags: ["user"],
+    
+
+
+    // playlist
+    getPlaylist: builder.query({
+      query: () => "playlist",
+      providesTags:["playlist"]
     }),
+    addSongToPlaylist: builder.mutation({
+      query: (obj) => ({
+            url:"playlist",
+            method: "POST",
+            body: obj         // obj = {playlist:["",...],songObj:{youtubeId:"",songUrl:"",songName:""}}
+      }),
+      invalidatesTags: ["playlist"],
+    }),
+
     
   }),
 })
@@ -41,8 +58,12 @@ export const MelodiaApi = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const {
-  useGetUsersQuery,
+
+  // password helpers
   usePostResetPasswordEmailMutation,
-  usePostUserMutation,
   useVerifyResetPassTokenMutation,
+
+  // playlist
+  useGetPlaylistQuery,
+  useAddSongToPlaylistMutation,
 } = MelodiaApi

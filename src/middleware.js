@@ -14,6 +14,7 @@ export default  withAuth(
       {
             callbacks: {
                   authorized: ({ token }) => {
+                        console.log("token in middleware :",token)
                         if(!token) return false
             },
             },

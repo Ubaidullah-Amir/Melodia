@@ -36,6 +36,7 @@ CREATE TABLE "PlayList" (
 -- CreateTable
 CREATE TABLE "Song" (
     "songId" TEXT NOT NULL,
+    "youtubeId" TEXT NOT NULL,
     "songUrl" TEXT NOT NULL,
     "songName" TEXT NOT NULL,
 
@@ -56,6 +57,9 @@ CREATE UNIQUE INDEX "Preference_userId_key" ON "Preference"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "PlayList_playlistName_userId_key" ON "PlayList"("playlistName", "userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Song_youtubeId_key" ON "Song"("youtubeId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Song_songUrl_key" ON "Song"("songUrl");

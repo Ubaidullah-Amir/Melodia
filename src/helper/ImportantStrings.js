@@ -7,3 +7,8 @@ export const ERROR_IN_SENDEMAIL = "ERROR_IN_SENDEMAIL" // error in sendEmail fun
 export const USER_NOT_EXIST     =   "USER_NOT_EXIST"  // in resetpassword route and clientside handling
 export const EMAIL_NOT_SENT     =   "EMAIL_NOT_SENT"  // in resetpassword route and clientside handling
 export const RESET_PASSWORD_TOKEN_EXPIRED = "RESET_PASSWORD_TOKEN_EXPIRED" // reset password token verify route and clientside handling
+
+
+
+//user logged in status
+export const UNAUTHENTICATED = "unauthenticated"

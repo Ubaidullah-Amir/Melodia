@@ -1,13 +1,45 @@
+import { UNAUTHENTICATED } from "@/helper/ImportantStrings";
+import { useAddSongToPlaylistMutation, useGetPlaylistQuery } from "@/redux/features/api";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
-function PlaylistModal({ isModalOpen, closeModal }) {
+function PlaylistModal({ songDetails,isModalOpen, closeModal }) {
+
+    const router = useRouter()
+
+
     const modalRef = useRef(null);
     const [newPlaylistName, setNewPlaylistName] = useState('');
-    const [playlists, setPlaylists] = useState([
-        { name: "add to watch later", checked: false },
-        { name: "remove from watch later", checked: false },
-        { name: "classical songs", checked: false }
-    ]);
+
+    const {
+        data:playlistArr,
+        error:gettingPlaylistError,
+        isError: isErrorGettingPlaylist,
+        isLoading:isLoadingGettingPlaylist ,
+        isFetching:isFetchingGettingPlaylist,
+        
+    } = useGetPlaylistQuery()
+
+    const [
+        addSongToPlaylistMutation,{
+        isLoading: isSongAdding,
+        isSuccess:hasSongAdded,
+        isError:isErrorAddingSongToPlaylist,
+        error:songAddingError,
+        }] = useAddSongToPlaylistMutation()
+
+    useEffect(()=>{
+        if(isLoadingGettingPlaylist || isFetchingGettingPlaylist) return
+
+        const playlistObjectArray = playlistArr?.map(obj => {
+            return { name:obj.playlistName, checked: false };
+        });
+        setPlaylists(playlistObjectArray)
+
+    },[isLoadingGettingPlaylist,isFetchingGettingPlaylist])
+    
+    const [playlists, setPlaylists] = useState();
 
     const handleCheckboxChange = (index) => {
         // Toggle the checked state of the playlist
@@ -18,10 +50,46 @@ function PlaylistModal({ isModalOpen, closeModal }) {
 
     const handleCreatePlaylist = () => {
         if (newPlaylistName.trim() !== '') {
-            setPlaylists([...playlists, { name: newPlaylistName, checked: false }]);
+            // Convert newPlaylistName to lowercase
+            const lowercasePlaylistName = newPlaylistName.toLowerCase();
+    
+            // Check if the new playlist name already exists in the playlists array
+            const playlistExists = playlists.some(playlist => playlist.name.toLowerCase() === lowercasePlaylistName);
+            
+            // If the playlist doesn't exist, add it to the playlists array
+            if (!playlistExists) {
+                setPlaylists([...playlists, { name: lowercasePlaylistName, checked: false }]);
+            }
+            
+            // Reset the new playlist name input field
             setNewPlaylistName('');
         }
     };
+
+    function handleAddToPlaylist() {
+
+        const arr = playlists?.map(item => {
+            return item.checked ? item.name : null;
+        }).filter(name => name !== null);
+        const playlistObj={
+            playlist: arr,
+            songObj:songDetails
+        }
+        console.log("playlistObj", playlistObj);
+        
+        addSongToPlaylistMutation(playlistObj)
+        
+    }
+
+    useEffect(() =>{
+        if(hasSongAdded){
+            toast.success("Song successfully added")
+        }
+    },[hasSongAdded])
+
+
+
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -39,12 +107,36 @@ function PlaylistModal({ isModalOpen, closeModal }) {
     }, [isModalOpen]);
 
     
+    // if(errorGettingPlaylist){
+    //     return
+    // }
+
+
+    // if(errorGettingPlaylist){
+    //     return
+    // }
+
+    useEffect(()=>{
+        if(isErrorAddingSongToPlaylist || isErrorGettingPlaylist){
+
+            // letting the user use the app 
+            // const condition1 = gettingPlaylistError?.data?.error === UNAUTHENTICATED
+            const condition2 = songAddingError?.data?.error === UNAUTHENTICATED
+            if( condition2){
+                router.replace("/login")
+            }
+        }
+
+    },[isErrorAddingSongToPlaylist , isErrorGettingPlaylist])
+
+    
     
 
     return (
         <>
             {isModalOpen &&
                 <dialog open={isModalOpen} className="modal fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto backdrop-blur flex justify-center items-center">
+                
                 <div ref={modalRef} className="bg-white relative m-auto p-4 md:p-8">
                     <svg
                         className="w-8 h-8 absolute top-0 right-0 cursor-pointer"
@@ -70,19 +162,21 @@ function PlaylistModal({ isModalOpen, closeModal }) {
                             />
                         </g>
                     </svg>
+                    {!isErrorGettingPlaylist && !isErrorAddingSongToPlaylist?
+                    
                     <div className="flex flex-col items-center">
                         <p className="font-bold pb-3">Add to Playlists</p>
                         <ul>
-                            {playlists.map((playlist, index) => (
+                            {playlists?.map((playlistItem, index) => (
                                 <li key={index} className="flex items-center mb-2">
                                     <input 
                                         type="checkbox" 
                                         id={`playlist-${index}`} 
-                                        checked={playlist.checked} 
+                                        checked={playlistItem.checked} 
                                         onChange={() => handleCheckboxChange(index)}
                                         className="mr-2 cursor-pointer" 
                                     />
-                                    <label htmlFor={`playlist-${index}`} className="cursor-pointer capitalize">{playlist.name}</label>
+                                    <label htmlFor={`playlist-${index}`} className="cursor-pointer capitalize">{playlistItem.name}</label>
                                 </li>
                             ))}
                         </ul>
@@ -97,8 +191,11 @@ function PlaylistModal({ isModalOpen, closeModal }) {
                             />
                             <button type="button" className="bg-blue-500 mt-2 text-white px-4 py-2 rounded-md" onClick={handleCreatePlaylist}>Create Playlist</button>
                         </div>
-                        <button type="button" className="bg-red-500 text-white p-2" onClick={closeModal}>Add to Playlist</button>
-                    </div>
+                        <button type="button" className="bg-red-500 text-white p-2" onClick={handleAddToPlaylist}>Add to Playlist</button>
+                        {isSongAdding && <p className="text-blue-800">Song is adding to Playlist please wait</p>}
+                    </div>:
+                    <p className="text-red-700 ">Error is getting the playlists.Please try again later.</p>
+                    }
                 </div>
             </dialog>
             }
