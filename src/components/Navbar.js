@@ -74,7 +74,7 @@ const Navbar = () => {
                         
                         <p className='p-2 font-bold'>Playlist</p>
                         {playlistArr?.map((playlistObject)=>(
-                              <li className={path == `/playlist/${playlistObject.playlistId}` ? "font-bold border-l-2 border-blue-600" : "text-gray-500 hover:border-l-2 hover:bg-gray-200 transition-all"}>
+                              <li key={playlistObject.playlistId} className={path == `/playlist/${playlistObject.playlistId}` ? "font-bold border-l-2 border-blue-600" : "text-gray-500 hover:border-l-2 hover:bg-gray-200 transition-all"}>
                                     <Link className='flex pl-3 items-center ' href={`/playlist/${playlistObject.playlistId}`}>
 
                                           <svg className='h-7 w-7 pr-1' viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><title/>

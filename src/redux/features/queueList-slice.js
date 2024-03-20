@@ -50,6 +50,10 @@ export const QueueReducer = createSlice({
         },
         setQueueToStop: (state)=>{
             state.isQueuePlaying=false;
+        },
+        setQueueToReset: (state)=>{
+            state.currentIndex   = null,
+            state.isQueuePlaying = false;
         }
     }
 })
@@ -61,6 +65,7 @@ export const {
     changeCurrentIndexQueueStateTo,
     setQueueToPlaying,
     setQueueToStop,
-    changeProperNextIndexQueueState
+    changeProperNextIndexQueueState,
+    setQueueToReset
 } = QueueReducer.actions
 export default QueueReducer

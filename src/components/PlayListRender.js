@@ -1,6 +1,7 @@
 "use client"
 import Queue from "@/helper/QueueFunction";
 import { changeIsPlayerPlaying, changeSelectedVideoInfo, changeVideoId, toggleIsPlayerPlaying } from "@/redux/features/music-slice";
+import { setPlaylistToReset, setPlaylistToStop } from "@/redux/features/playlist";
 import { addSongListToQueueState, changeCurrentIndexQueueStateTo, removeSongFromQueueState, setQueueToPlaying } from "@/redux/features/queueList-slice";
 import Image from "next/image";
 import { useEffect } from "react";
@@ -45,6 +46,7 @@ export default function PlayListRender({styles}) {
         if(!isQueuePlaying){
             // if queue is idle the first play should set the queue playing state
             dispatch(setQueueToPlaying())
+            dispatch(setPlaylistToReset())
         }
         dispatch(changeCurrentIndexQueueStateTo(index)) // changing the current index to selected index
         
@@ -110,7 +112,7 @@ const SongCard = ({videoTitle,videoURL,videoId,index,handleQueuePlay,defaultHand
         <div className='flex py-2 px-4 rounded-full items-center bg-white dark:bg-blue-950'>
             {/*default play svg */}
             {!isQueuePlaying || queueCurrentIndex!=index?
-                <svg className='w-10 h-10 cursor-pointer  ' onClick={()=>{defaultHandleQueuePlay(index)}} fill="none"  stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg className='w-10 h-10 cursor-pointer text-red-500 ' onClick={()=>{defaultHandleQueuePlay(index)}} fill="none"  stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 :null
             }  
             {/* play svg */}

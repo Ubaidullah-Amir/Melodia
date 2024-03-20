@@ -6,7 +6,7 @@ const baseUrl = "http://localhost:3000/api/"
 export const MelodiaApi = createApi({
   reducerPath: 'MelodiaApi',
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl}),
-  tagTypes: ['user',"playlist"],
+  tagTypes: ['user',"playlist","PlaylistById"],
   endpoints: (builder) => ({
     // getUsers: builder.query({
     //   query: () => "user",
@@ -51,6 +51,20 @@ export const MelodiaApi = createApi({
       invalidatesTags: ["playlist"],
     }),
 
+    //playlistById
+    getPlaylistById: builder.query({
+      query: (playlistId) => `/playlist/${playlistId}`, 
+      providesTags: (result, error, id) => [{ type: 'PlaylistById', id }],
+    }),
+    // updatePlaylist: builder.mutation({
+    //   query: ({ playlistId, updatedData }) => ({
+    //     url: `/playlist/${playlistId}`,
+    //     method: 'PUT',
+    //     body: updatedData,
+    //   }),
+    //   invalidatesTags: [{ type: 'PlaylistById', playlistId: 'PROVIDED' }],
+    // }),
+
     
   }),
 })
@@ -66,4 +80,8 @@ export const {
   // playlist
   useGetPlaylistQuery,
   useAddSongToPlaylistMutation,
+
+  // playlistByid
+  useGetPlaylistByIdQuery,
+
 } = MelodiaApi

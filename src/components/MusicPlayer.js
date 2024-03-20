@@ -5,9 +5,12 @@ import UseYouTubeComp from '@/customHooks/useYoutubeComp';
 import YouTube from 'react-youtube';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProperNextIndexQueueState } from '@/redux/features/queueList-slice';
+import { changeToProperNextIndexPlaylist } from '@/redux/features/playlist';
 const MusicPlayer = ({styles}) => {
       //testing
       const isQueuePlaying = useSelector(state=>state.Queue.isQueuePlaying) 
+      
+      const isPlaylistPlaying = useSelector(state=>state.Playlist.isPlaylistPlaying) 
       const dispatch = useDispatch()
       //testing
       const player = useRef()
@@ -121,12 +124,24 @@ const MusicPlayer = ({styles}) => {
             
                   </div>
                   {/* {testing purpose} */}
-                  {isQueuePlaying ?
+                  {isQueuePlaying &&
                   <button onClick={()=>{
                         
                         dispatch(changeProperNextIndexQueueState())
 
-                        }}>Next Song</button>:null}
+                        }}>
+                        Next Queue Song
+                  </button>
+                  }
+                  {isPlaylistPlaying &&
+                  <button onClick={()=>{
+                        
+                        dispatch(changeToProperNextIndexPlaylist())
+
+                        }}>
+                        Next Playlist Song
+                  </button>
+                  }
                   
                   </div>
             

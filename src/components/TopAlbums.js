@@ -1,7 +1,7 @@
 
 "use client"
 import Queue from '@/helper/QueueFunction';
-import { addSongToQueueState, setQueueToStop } from '@/redux/features/queueList-slice';
+import { addSongToQueueState, setQueueToReset, setQueueToStop } from '@/redux/features/queueList-slice';
 import { changeSelectedVideoInfo, changeVideoId } from '@/redux/features/music-slice';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import PlaylistModal from './PlaylistModal';
 import { useSession } from 'next-auth/react';
 import { UNAUTHENTICATED } from '@/helper/ImportantStrings';
+import { setPlaylistToReset, setPlaylistToStop } from '@/redux/features/playlist';
 
 
 function TopAlbums({popularSongs,styles}) {
@@ -131,7 +132,15 @@ function SongCard({songDetail,disablePlaylistButton}) {
                 height={400}
                 alt="song picture"
                 onClick={()=>{
-                    dispatch(setQueueToStop())
+
+                    //taking the control from the queue that may be playing
+                    dispatch(setQueueToReset())
+
+                    //taking the control from the any Playlist that may be playing
+                    dispatch(setPlaylistToReset())
+
+                    //Now  triggering the actual video to play
+
                     // changing the videoId which triggers useEffect in useyoutubecomp
                     dispatch(changeVideoId(videoId))
                     // changing the info of video just for displaying
