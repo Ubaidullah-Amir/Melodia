@@ -3,12 +3,13 @@
 import Topbar from "@/components/Topbar"
 import {  useEffect } from "react"
 import styles from '@/app/(withMainLayout)/styles.module.css'
-import { useGetPlaylistByIdQuery } from "@/redux/features/api"
+import { useGetPlaylistByIdQuery, useUpdatePlaylistMutation } from "@/redux/features/api"
 import Image from "next/image"
 import { useDispatch, useSelector } from "react-redux"
 import { changeCurrentIndexPlaylistTo, loadPlaylist, setPlaylistName, setPlaylistToPlaying } from "@/redux/features/playlist"
 import { changeCurrentTime, changeIsPlayerPlaying, changeSelectedVideoInfo, changeVideoId } from "@/redux/features/music-slice"
 import { setQueueToReset, setQueueToStop } from "@/redux/features/queueList-slice"
+import toast, { Toaster } from "react-hot-toast"
 
 
 function SpecificPlaylist({params}) {
@@ -33,7 +34,6 @@ function SpecificPlaylist({params}) {
       
 
       useEffect(()=>{
-            console.log("playlistName",playlistName)
             if(!isPlaylistPlaying || playlistSongs.length==0 || playlistCurrentIndex == null ) return
 
             const currentSong = playlistSongs[playlistCurrentIndex]
@@ -96,17 +96,21 @@ function SpecificPlaylist({params}) {
                   
                   {(getPlaylistisSuccess && !getPlaylisistFetching && !getPlaylistisLoading) 
                   && <>
-                  <p className="text-center ">Playlist :{playlistData.playlist.playlistName}</p>
+                  
+                  <h1 className='p-3 font-bold'>Playlist :{playlistData.playlist.playlistName}</h1>
                   
                   {playlistData.playlist.song?.map((songObj,index)=>{
+                        
                         const songDetail = {
                               videoURL:songObj.songUrl,
                               videoTitle:songObj.songName,
-                              videoId:songObj.youtubeId
+                              videoId:songObj.youtubeId,
+                              songId:songObj.songId
                         }
                         return (<SongCard 
                                     key={songObj.youtubeId} 
                                     songDetail={songDetail}
+                                    pagePlaylistId={playlistId}
                                     pagePlaylistName = {playlistData.playlist.playlistName}
                                     index={index} 
                                     handlePlaylistStop={handlePlaylistStop}
@@ -122,17 +126,52 @@ function SpecificPlaylist({params}) {
       );
 };
 
-function SongCard({songDetail,index,pagePlaylistName,handlePlaylistPlay,handlePlaylistStop,defaultHandlePlaylistPlay}) {
+function SongCard({songDetail,index,pagePlaylistId,pagePlaylistName,handlePlaylistPlay,handlePlaylistStop,defaultHandlePlaylistPlay}) {
       const dispatch = useDispatch()
       const isPlaylistPlaying = useSelector(state=>state.Playlist.isPlaylistPlaying)
       const playlistCurrentIndex = useSelector(state=>state.Playlist.currentIndex)
       const isSongPlaying = useSelector(state=>state.musicPlayer.isPlayerPlaying)
       const playlistName = useSelector(state=>state.Playlist.playlistName)
+      const [
+            removeSongToPlaylistMutation,{
+            isLoading: isSongDeleting,
+            isSuccess:hasSongDeleted,
+            isError:isErrorDeletingSongToPlaylist,
+            error:songDeletingError,
+            }] = useUpdatePlaylistMutation()
+
+
+      useEffect(() => {
+            if (hasSongDeleted) {
+                  toast.success("Song successfully removed from the playlist.");
+            }
+            }, [hasSongDeleted]);
+
+
+      useEffect(()=>{
+            if(isErrorDeletingSongToPlaylist ){
+    
+                // letting the user use the app 
+                // const condition1 = gettingPlaylistError?.data?.error === UNAUTHENTICATED
+                  const condition2 = songDeletingError?.data?.error === UNAUTHENTICATED
+                  if( condition2){
+                        toast.error("Your session has expired. Please login again")
+                        router.replace("/login")
+                  }else{
+                        toast.error("Something is wrong.Please try again")
+                 
+                  }
+            }
+    
+        },[isErrorDeletingSongToPlaylist ])
 
       
-      const {videoURL,videoTitle} = songDetail
+      const {videoURL,videoTitle,songId} = songDetail
       return (
+            <>
+            
             <div className='  flex py-2 px-4 mb-2 rounded-full items-center bg-white dark:bg-blue-950'>
+            <Toaster/>
             {/* default play svg */}
             {!isPlaylistPlaying || playlistCurrentIndex!=index || playlistName!= pagePlaylistName?
                 <svg className='w-10 h-10 cursor-pointer text-red-500  ' onClick={()=>{defaultHandlePlaylistPlay(index)}} fill="none"  stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -168,6 +207,10 @@ function SongCard({songDetail,index,pagePlaylistName,handlePlaylistPlay,handlePl
                     xmlns="http://www.w3.org/2000/svg"
                     xmlnsXlink="http://www.w3.org/1999/xlink"
                     onClick={() => {
+                        
+                        removeSongToPlaylistMutation({ 
+                              playlistId:pagePlaylistId, 
+                              updatedData:{songId} })
                     }}
                     style={{
                         transition: 'fill 0.3s ease',
@@ -187,6 +230,7 @@ function SongCard({songDetail,index,pagePlaylistName,handlePlaylistPlay,handlePl
                 {/* <p className='text-gray-500 text-xs'>4.25</p>
                 <svg className='w-9' version="1.1" viewBox="0 0 512 512"  xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"><path fill="currentColor" d="M340.8,98.4c50.7,0,91.9,41.3,91.9,92.3c0,26.2-10.9,49.8-28.3,66.6L256,407.1L105,254.6c-15.8-16.6-25.6-39.1-25.6-63.9  c0-51,41.1-92.3,91.9-92.3c38.2,0,70.9,23.4,84.8,56.8C269.8,121.9,302.6,98.4,340.8,98.4 M340.8,83C307,83,276,98.8,256,124.8  c-20-26-51-41.8-84.8-41.8C112.1,83,64,131.3,64,190.7c0,27.9,10.6,54.4,29.9,74.6L245.1,418l10.9,11l10.9-11l148.3-149.8  c21-20.3,32.8-47.9,32.8-77.5C448,131.3,399.9,83,340.8,83L340.8,83z"/></svg> */}
             </div>
+            </>
       )
       
 }

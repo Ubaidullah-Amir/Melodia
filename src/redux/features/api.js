@@ -37,33 +37,40 @@ export const MelodiaApi = createApi({
     
 
 
-    // playlist
-    getPlaylist: builder.query({
+    // playlist   (use for songs related stuff too)
+
+    getPlaylist: builder.query({    //gets the names of playlists only
       query: () => "playlist",
       providesTags:["playlist"]
     }),
-    addSongToPlaylist: builder.mutation({
+
+
+    addSongToPlaylist: builder.mutation({   //creates/updates the playlist with songs
       query: (obj) => ({
             url:"playlist",
             method: "POST",
             body: obj         // obj = {playlist:["",...],songObj:{youtubeId:"",songUrl:"",songName:""}}
       }),
-      invalidatesTags: ["playlist"],
+      invalidatesTags: ["playlist", { type: 'PlaylistById' , playlistId: 'PROVIDED'}],
     }),
 
     //playlistById
-    getPlaylistById: builder.query({
+
+    getPlaylistById: builder.query({  //gets the playlist with songs
       query: (playlistId) => `/playlist/${playlistId}`, 
       providesTags: (result, error, id) => [{ type: 'PlaylistById', id }],
     }),
-    // updatePlaylist: builder.mutation({
-    //   query: ({ playlistId, updatedData }) => ({
-    //     url: `/playlist/${playlistId}`,
-    //     method: 'PUT',
-    //     body: updatedData,
-    //   }),
-    //   invalidatesTags: [{ type: 'PlaylistById', playlistId: 'PROVIDED' }],
-    // }),
+
+
+    updatePlaylist: builder.mutation({   //used for deleting the connection of songs with playlist
+      query: ({ playlistId, updatedData }) => ({
+        url: `/playlist/${playlistId}`,
+        method: 'PUT',
+        body: updatedData,   //{songId:} 
+      }),
+      invalidatesTags: [{ type: 'PlaylistById', playlistId: 'PROVIDED' }],
+    }),
+    
 
     
   }),
@@ -83,5 +90,6 @@ export const {
 
   // playlistByid
   useGetPlaylistByIdQuery,
+  useUpdatePlaylistMutation,
 
 } = MelodiaApi

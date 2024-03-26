@@ -134,9 +134,9 @@ const SongCard = ({videoTitle,videoURL,videoId,index,handleQueuePlay,defaultHand
                       alt="Picture of the author"
                 />
                 {/* <div className='flex flex-col basis-full text-sm ml-2'> */}
-                <p >{videoTitle}</p>
+                <p className="grow">{videoTitle}</p>
                 <svg
-                    className="w-11 h-11 cursor-pointer"
+                    className="justify-self-end w-10 h-10 min-w-[1.8rem] min-h-[1.8rem] cursor-pointer"
                     version="1.1"
                     viewBox="0 0 24 24"
                     xmlSpace="preserve"
