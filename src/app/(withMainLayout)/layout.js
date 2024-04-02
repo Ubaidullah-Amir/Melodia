@@ -10,7 +10,9 @@ export default async function RootLayout({ children }) {
   return (
     <div className={`${themeStyles} ${mediumStyles}  ${largeStyles}`}>
       <Navbar />
+      <div className='min-h-screen'>
       {children}
+      </div>
       <MusicPlayer styles={styles} />
     </div>
   )

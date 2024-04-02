@@ -71,7 +71,14 @@ export const MelodiaApi = createApi({
       invalidatesTags: [{ type: 'PlaylistById', playlistId: 'PROVIDED' }],
     }),
     
-
+    // download the song
+    downloadSong: builder.mutation({
+      query: (obj) => ({
+            url:"download",
+            method: "POST",
+            body: obj     //obj={videoId:"",type:"mp4" or "mp3",}
+      }),
+    }),
     
   }),
 })
@@ -91,5 +98,8 @@ export const {
   // playlistByid
   useGetPlaylistByIdQuery,
   useUpdatePlaylistMutation,
+
+  // download
+  useDownloadSongMutation,
 
 } = MelodiaApi
