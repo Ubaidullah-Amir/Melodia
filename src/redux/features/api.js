@@ -1,12 +1,13 @@
 // Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import BaseURL from '../../../BaseURL'
 
 // Define a service using a base URL and expected endpoints
-const baseUrl = "http://localhost:3000/api/"
+
 export const MelodiaApi = createApi({
   reducerPath: 'MelodiaApi',
-  baseQuery: fetchBaseQuery({ baseUrl: baseUrl}),
-  tagTypes: ['user',"playlist","PlaylistById"],
+  baseQuery: fetchBaseQuery({ baseUrl: BaseURL}),
+  tagTypes: ['user',"playlist","PlaylistById","Tags"],
   endpoints: (builder) => ({
     // getUsers: builder.query({
     //   query: () => "user",
@@ -70,6 +71,24 @@ export const MelodiaApi = createApi({
       }),
       invalidatesTags: [{ type: 'PlaylistById', playlistId: 'PROVIDED' }],
     }),
+
+    // tags
+    getTags: builder.query({  //gets the tags  {userID by token}
+      query: () => "tags",
+      providesTags:["Tags"]
+    }),
+    // updating Tags
+    updateTags: builder.mutation({   //used to update tags in Preference table
+      query: ({ preferenceId, updatedTags }) => ({
+        url: `/tags`,
+        method: 'PUT',
+        body: { preferenceId, updatedTags },   //{id , [...tags element]}
+      }),
+      invalidatesTags: ["Tags"],
+    }),
+
+
+
     
     // download the song
     downloadSong: builder.mutation({
@@ -98,6 +117,9 @@ export const {
   // playlistByid
   useGetPlaylistByIdQuery,
   useUpdatePlaylistMutation,
+  // tags
+  useGetTagsQuery,
+  useUpdateTagsMutation,
 
   // download
   useDownloadSongMutation,

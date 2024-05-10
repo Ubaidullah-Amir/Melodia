@@ -137,7 +137,7 @@ function PlaylistModal({ songDetails,isModalOpen, closeModal }) {
             {isModalOpen &&
                 <dialog open={isModalOpen} className="modal fixed left-0 top-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto backdrop-blur flex justify-center items-center">
                 
-                <div ref={modalRef} className="bg-white relative m-auto p-4 md:p-8">
+                <div ref={modalRef} className="bg-white dark:bg-blue-950 relative m-auto p-4 md:p-8">
                     <svg
                         className="w-8 h-8 absolute top-0 right-0 cursor-pointer"
                         version="1.1"

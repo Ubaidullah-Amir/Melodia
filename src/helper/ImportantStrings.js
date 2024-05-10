@@ -15,3 +15,6 @@ export const NOT_FOUND = "NOT_FOUND" // error in finding the playlist etc
 
 //user logged in status
 export const UNAUTHENTICATED = "unauthenticated"
+
+// Invalid stucture of request
+export const INVALIDREQUEST = "INVALID_REQUEST"

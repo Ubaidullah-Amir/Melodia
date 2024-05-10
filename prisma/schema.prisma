@@ -28,10 +28,11 @@ model User {
 }
 
 model Preference {
-  preferenceId String @id @default(uuid())
-  userId       String @unique
-  user         User   @relation(fields: [userId], references: [id])
+  preferenceId String   @id @default(uuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
   theme        String
+  tags         String[] 
 }
 
 model PlayList {

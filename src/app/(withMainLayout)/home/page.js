@@ -1,19 +1,19 @@
-
 // import { useSession } from 'next-auth/react';
 import styles from '@/app/(withMainLayout)/styles.module.css'
 import TopAlbums from '@/components/TopAlbums';
 import Topbar from '@/components/Topbar';
 import Image from 'next/image';
-import googleApiURL from '@/lib/youtubeDataApi';
 import { Toaster } from 'react-hot-toast';
 import PlayListRender from '@/components/PlayListRender';
-
+import BaseURL from '../../../../BaseURL';
+import { headers } from "next/headers"
 
 async function getPopularSongs(){
-  const response = await fetch(googleApiURL)
+  const response = await fetch(`${BaseURL}/googleApi`, { cache: 'no-store',headers: headers() })
   const data  = await response.json()
   return data
 }
+
 
 async function Home(){
   const popularSongs = await getPopularSongs()

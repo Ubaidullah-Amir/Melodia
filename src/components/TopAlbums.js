@@ -10,6 +10,7 @@ import PlaylistModal from './PlaylistModal';
 import { useSession } from 'next-auth/react';
 import { UNAUTHENTICATED } from '@/helper/ImportantStrings';
 import { setPlaylistToReset, setPlaylistToStop } from '@/redux/features/playlist';
+import BaseURL from '../../BaseURL';
 
 
 function TopAlbums({popularSongs,styles}) {
@@ -18,7 +19,10 @@ function TopAlbums({popularSongs,styles}) {
 
     return (
         <>
-            <h1 className='p-3 font-bold'>Popular Songs</h1>
+            <div className='flex justify-between items-center'>
+                <h1 className='p-3 font-bold '>Popular Songs</h1> 
+                <a href='/customize' className='text-green-500 font-bold block '>Customize</a>
+            </div>
             <div  className={`${styles.scrollbarContainer}  gap-2 flex min-h-[200px] overflow-x-scroll py-2`}>
                 {
                     popularSongs.items?.map((item)=>{
