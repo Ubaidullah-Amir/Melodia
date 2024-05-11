@@ -9,7 +9,7 @@ import BaseURL from '../../../../BaseURL';
 import { headers } from "next/headers"
 
 async function getPopularSongs(){
-  const response = await fetch(`${BaseURL}/googleApi`, { cache: 'no-store',headers: headers() })
+  const response = await fetch(`${BaseURL}/googleApi`, { cache: 'no-store',headers: new Headers(headers()) })
   const data  = await response.json()
   return data
 }
