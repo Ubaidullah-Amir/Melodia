@@ -1,2 +1,2 @@
-const BaseURL = "http://localhost:3000/api/"
+const BaseURL = "https://melodia-five.vercel.app/api/"
 export default BaseURL
