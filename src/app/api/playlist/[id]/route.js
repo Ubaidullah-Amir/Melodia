@@ -7,7 +7,11 @@ import {  UNAUTHENTICATED } from "@/helper/ImportantStrings";
 export async function GET(req,context) {
     
     try {
-        const token = await getToken({ req });
+        const token = await getToken({
+          req,
+          secret: process.env.NEXTAUTH_SECRET,
+          cookieName: "__Secure-next-auth.session-token"
+        });
 
         if(!token){
                 return NextResponse.json({error:UNAUTHENTICATED},{status:401})
@@ -37,7 +41,11 @@ export async function GET(req,context) {
 // delete the connection of playlist with the song
 export async function  PUT(req,context) {
   try {
-    const token = await getToken({ req });
+    const token = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+      cookieName: "__Secure-next-auth.session-token"
+    });
 
     if(!token){
           return NextResponse.json({error:UNAUTHENTICATED},{status:401})

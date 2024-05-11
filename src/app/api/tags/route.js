@@ -6,7 +6,11 @@ import { INVALIDREQUEST, UNAUTHENTICATED } from "@/helper/ImportantStrings";
 
 export async function GET(req) {
       try {
-            const token = await getToken({ req });
+            const token = await getToken({
+                req,
+                secret: process.env.NEXTAUTH_SECRET,
+                cookieName: "__Secure-next-auth.session-token"
+              });
 
             if(!token){
                   return NextResponse.json({error:UNAUTHENTICATED},{status:401})
@@ -49,7 +53,11 @@ export async function GET(req) {
 export async function  PUT(req) {
 
       try {
-            const token = await getToken({ req });
+            const token = await getToken({
+                req,
+                secret: process.env.NEXTAUTH_SECRET,
+                cookieName: "__Secure-next-auth.session-token"
+              });
 
             if(!token){
                   return NextResponse.json({error:UNAUTHENTICATED},{status:401})
