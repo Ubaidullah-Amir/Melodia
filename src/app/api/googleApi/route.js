@@ -1,4 +1,3 @@
-import { getToken } from "next-auth/jwt"
 import prisma from "@/db/dbConfig"
 import { NextResponse } from "next/server"
 import youtubeDataApi from '@/lib/youtubeDataApi';

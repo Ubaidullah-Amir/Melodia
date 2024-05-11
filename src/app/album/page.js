@@ -1,7 +1,7 @@
 "use client"
 import { useSession } from 'next-auth/react';
-import React, { useEffect, useState } from 'react';
-async function fetchAlbum() {
+import React from 'react';
+// async function fetchAlbum() {
       // const token = await getToken({ req })
       // if (token) {
             
@@ -23,7 +23,7 @@ async function fetchAlbum() {
       //       // Not Signed in
       //       return NextResponse.json({successful:false},{status:500})
       // }
-}
+// }
 const page = () => {
       const { data: session, status } = useSession()
 

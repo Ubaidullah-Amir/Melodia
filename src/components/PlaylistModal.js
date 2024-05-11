@@ -2,7 +2,7 @@ import { UNAUTHENTICATED } from "@/helper/ImportantStrings";
 import { useAddSongToPlaylistMutation, useGetPlaylistQuery } from "@/redux/features/api";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 function PlaylistModal({ songDetails,isModalOpen, closeModal }) {
 

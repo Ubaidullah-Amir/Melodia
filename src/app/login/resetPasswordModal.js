@@ -2,7 +2,7 @@
 
 import UseModal from '@/customHooks/useModal';
 import UseResetPassword from '@/customHooks/useFormResetPassword';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Modal from 'react-modal';
 import { usePostResetPasswordEmailMutation } from '@/redux/features/api';
 import toast, { Toaster } from 'react-hot-toast';
@@ -46,6 +46,7 @@ const ResetPasswordToken = () => {
       
       return (
       <div>
+            <Toaster/>
             <button onClick={openModal}>Forgot Password?</button>
             <Modal
                   isOpen={modalIsOpen}

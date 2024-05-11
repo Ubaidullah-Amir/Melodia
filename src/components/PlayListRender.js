@@ -1,7 +1,7 @@
 "use client"
 import Queue from "@/helper/QueueFunction";
-import { changeIsPlayerPlaying, changeSelectedVideoInfo, changeVideoId, toggleIsPlayerPlaying } from "@/redux/features/music-slice";
-import { setPlaylistToReset, setPlaylistToStop } from "@/redux/features/playlist";
+import { changeIsPlayerPlaying, changeSelectedVideoInfo, changeVideoId } from "@/redux/features/music-slice";
+import { setPlaylistToReset } from "@/redux/features/playlist";
 import { addSongListToQueueState, changeCurrentIndexQueueStateTo, removeSongFromQueueState, setQueueToPlaying } from "@/redux/features/queueList-slice";
 import Image from "next/image";
 import { useEffect } from "react";

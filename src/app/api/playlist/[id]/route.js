@@ -1,7 +1,7 @@
 import { getToken } from "next-auth/jwt"
 import prisma from "@/db/dbConfig"
 import { NextResponse } from "next/server"
-import { NOT_FOUND, UNAUTHENTICATED } from "@/helper/ImportantStrings";
+import {  UNAUTHENTICATED } from "@/helper/ImportantStrings";
 
 
 export async function GET(req,context) {

@@ -7,8 +7,8 @@ import { useGetPlaylistByIdQuery, useUpdatePlaylistMutation } from "@/redux/feat
 import Image from "next/image"
 import { useDispatch, useSelector } from "react-redux"
 import { changeCurrentIndexPlaylistTo, loadPlaylist, setPlaylistName, setPlaylistToPlaying } from "@/redux/features/playlist"
-import { changeCurrentTime, changeIsPlayerPlaying, changeSelectedVideoInfo, changeVideoId } from "@/redux/features/music-slice"
-import { setQueueToReset, setQueueToStop } from "@/redux/features/queueList-slice"
+import {  changeIsPlayerPlaying, changeSelectedVideoInfo, changeVideoId } from "@/redux/features/music-slice"
+import { setQueueToReset } from "@/redux/features/queueList-slice"
 import toast, { Toaster } from "react-hot-toast"
 
 

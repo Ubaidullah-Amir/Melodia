@@ -1,7 +1,7 @@
 
 "use client"
 import Queue from '@/helper/QueueFunction';
-import { addSongToQueueState, setQueueToReset, setQueueToStop } from '@/redux/features/queueList-slice';
+import { addSongToQueueState, setQueueToReset } from '@/redux/features/queueList-slice';
 import { changeSelectedVideoInfo, changeVideoId } from '@/redux/features/music-slice';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
@@ -9,8 +9,7 @@ import { useDispatch } from 'react-redux';
 import PlaylistModal from './PlaylistModal';
 import { useSession } from 'next-auth/react';
 import { UNAUTHENTICATED } from '@/helper/ImportantStrings';
-import { setPlaylistToReset, setPlaylistToStop } from '@/redux/features/playlist';
-import BaseURL from '../../BaseURL';
+import { setPlaylistToReset } from '@/redux/features/playlist';
 
 
 function TopAlbums({popularSongs,styles}) {
