@@ -16,6 +16,7 @@ function TopAlbums({popularSongs,styles}) {
     const {status:loggedInStatus} = useSession()
     const disablePlaylistButton = loggedInStatus === UNAUTHENTICATED
 
+
     return (
         <>
             <div className='flex justify-between items-center'>

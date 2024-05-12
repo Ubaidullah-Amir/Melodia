@@ -2,10 +2,19 @@
 import { useTheme } from 'next-themes';
 import React, { useState } from 'react';
 import HamburgerMenu from './Hamburger';
+import { useRouter } from 'next/navigation';
 
 const Topbar = ({toggleStyle}) => {
       const [showSettings,setShowSettings]=useState(false)
       const {theme, setTheme} = useTheme()
+      const router = useRouter()
+      function onSearchHandle(e) {
+            e.preventDefault()
+            const searchValue = e.target[0].value
+            if(searchValue.trim()){
+                  router.push(`/search?q=${searchValue}`);
+            }
+      }
       // console.log(theme)
       return (
             <div className='  flex h-14 justify-between  items-center p-3 gap-3'>
@@ -13,7 +22,9 @@ const Topbar = ({toggleStyle}) => {
                   <label className='hidden h-5 w-5 sm:block' htmlFor='search'>
                         <svg  className="h-full w-full " version="1.1" viewBox="0 0 512 512"  xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"><path fill="currentColor" d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3  c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2  c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2  c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"/></svg>
                   </label>
-                  <input id='search' className="bg-transparent  shadow-md focus:shadow-lg dark:focus:border-b-2 dark:bg-gray-900 dark:rounded-none dark:  rounded-full p-2 px-3  min-w-[100px] basis-full focus:outline-none "  placeholder='Search for any song,artist etc...'/>
+                  <form className='basis-full' onSubmit={onSearchHandle}>
+                  <input id='search'  className="bg-transparent  shadow-md focus:shadow-lg dark:focus:border-b-2 dark:bg-gray-900 dark:rounded-none   rounded-full p-2 px-3  w-full  focus:outline-none "  placeholder='Search for any song,artist etc...'/>
+                  </form>
                   {/* </div> */}
                   <div className='flex gap-2 items-center relative'>
                         {showSettings?

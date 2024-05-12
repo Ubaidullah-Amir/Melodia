@@ -1,17 +1,14 @@
-import { getToken } from "next-auth/jwt"
+
 import prisma from "@/db/dbConfig"
 import { NextResponse } from "next/server"
 import {  UNAUTHENTICATED } from "@/helper/ImportantStrings";
+import useGetToken from "@/customHooks/useGetToken";
 
 
 export async function GET(req,context) {
     
     try {
-        const token = await getToken({
-          req,
-          secret: process.env.NEXTAUTH_SECRET,
-          cookieName: "__Secure-next-auth.session-token"
-        });
+        const token = await useGetToken(req)
 
         if(!token){
                 return NextResponse.json({error:UNAUTHENTICATED},{status:401})
@@ -41,11 +38,7 @@ export async function GET(req,context) {
 // delete the connection of playlist with the song
 export async function  PUT(req,context) {
   try {
-    const token = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-      cookieName: "__Secure-next-auth.session-token"
-    });
+    const token = await useGetToken(req)
 
     if(!token){
           return NextResponse.json({error:UNAUTHENTICATED},{status:401})

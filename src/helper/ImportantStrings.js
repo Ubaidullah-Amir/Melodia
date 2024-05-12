@@ -18,3 +18,6 @@ export const UNAUTHENTICATED = "unauthenticated"
 
 // Invalid stucture of request
 export const INVALIDREQUEST = "INVALID_REQUEST"
+
+//  youtube API (10,000 query/day)
+export const QUOTA_EXCEEDED = "QUOTA_EXCEEDED"

@@ -98,6 +98,11 @@ export const MelodiaApi = createApi({
             body: obj     //obj={videoId:"",type:"mp4" or "mp3",}
       }),
     }),
+    // get youtube songs based on search value
+    getGoogleApiSearch: builder.query({
+        query: (search) => `googleApi/${search}`,
+        providesTags:["search"]
+      }),
     
   }),
 })
@@ -123,5 +128,7 @@ export const {
 
   // download
   useDownloadSongMutation,
+  // google search songs
+  useGetGoogleApiSearchQuery
 
 } = MelodiaApi

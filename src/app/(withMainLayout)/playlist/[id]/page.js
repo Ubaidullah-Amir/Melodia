@@ -97,7 +97,7 @@ function SpecificPlaylist({params}) {
                   {(getPlaylistisSuccess && !getPlaylisistFetching && !getPlaylistisLoading) 
                   && <>
                   
-                  <h1 className='p-3 font-bold'>Playlist :{playlistData.playlist.playlistName}</h1>
+                  <h1 className='p-3 font-bold capitalize'>Playlist :{playlistData.playlist.playlistName}</h1>
                   
                   {playlistData.playlist.song?.map((songObj,index)=>{
                         
