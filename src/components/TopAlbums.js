@@ -10,6 +10,7 @@ import PlaylistModal from './PlaylistModal';
 import { useSession } from 'next-auth/react';
 import { UNAUTHENTICATED } from '@/helper/ImportantStrings';
 import { setPlaylistToReset } from '@/redux/features/playlist';
+import toast from 'react-hot-toast';
 
 
 function TopAlbums({popularSongs,styles}) {
@@ -21,8 +22,12 @@ function TopAlbums({popularSongs,styles}) {
         <>
             <div className='flex justify-between items-center'>
                 <h1 className='p-3 font-bold '>Popular Songs</h1> 
+                {!disablePlaylistButton?
                 <a href='/customize' className='text-green-500 font-bold block '>Customize</a>
-            </div>
+                :<p className='text-gray-400 font-bold cursor-pointer'
+                onClick={()=>{toast.error("Please login to Customize feed")}}
+                >Customize</p>}
+                </div>
             <div  className={`${styles.scrollbarContainer}  gap-2 flex min-h-[200px] overflow-x-scroll py-2`}>
                 {
                     popularSongs.items?.map((item)=>{

@@ -38,14 +38,14 @@ const Topbar = ({toggleStyle}) => {
                                     </div>
                                     
                               </div>
-                              <div className='flex justify-between border-b-2 py-2'>
+                              {/* <div className='flex justify-between border-b-2 py-2'>
                                     <p className='text-xs'>Other setting toggle</p>
                                     <div className={toggleStyle}>
                                           <input type="checkbox" id="changeThisID" onClick={() => {}}/>
                                           <label htmlFor="changeThisID">Toggle</label>
                                     </div>
                                     
-                              </div>
+                              </div> */}
                               
                         </div>
                         :null
