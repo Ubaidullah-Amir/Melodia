@@ -7,7 +7,7 @@ import BaseURL from '../../../BaseURL'
 export const MelodiaApi = createApi({
   reducerPath: 'MelodiaApi',
   baseQuery: fetchBaseQuery({ baseUrl: BaseURL}),
-  tagTypes: ['user',"playlist","PlaylistById","Tags"],
+  tagTypes: ['user',"playlist","PlaylistById","Tags","artist"],
   endpoints: (builder) => ({
     // getUsers: builder.query({
     //   query: () => "user",
@@ -103,6 +103,15 @@ export const MelodiaApi = createApi({
         query: (search) => `googleApi/${search}`,
         providesTags:["search"]
       }),
+
+
+
+// get the top Artist external from Last.fm
+      getTopArtist: builder.query({
+        query: () => `topArtist`,
+        providesTags:["artist"]
+      }),
+    
     
   }),
 })
@@ -129,6 +138,7 @@ export const {
   // download
   useDownloadSongMutation,
   // google search songs
-  useGetGoogleApiSearchQuery
+  useGetGoogleApiSearchQuery,
+  useGetTopArtistQuery
 
 } = MelodiaApi
