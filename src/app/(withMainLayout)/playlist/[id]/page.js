@@ -91,13 +91,15 @@ function SpecificPlaylist({params}) {
 
 
       return (
+            <>
+            <Toaster/>
             <div className='h-screen  rounded-md p-3'>
                   <Topbar toggleStyle={styles.toggleStyle}/>
                   
                   {(getPlaylistisSuccess && !getPlaylisistFetching && !getPlaylistisLoading) 
                   && <>
                   
-                  <h1 className='p-3 font-bold capitalize'>Playlist :{playlistData.playlist.playlistName}</h1>
+                  <h1 className='p-3 font-bold capitalize'>Playlist : {playlistData.playlist.playlistName}</h1>
                   
                   {playlistData.playlist.song?.map((songObj,index)=>{
                         
@@ -123,6 +125,8 @@ function SpecificPlaylist({params}) {
                   }
 
             </div>
+            </>
+            
       );
 };
 
@@ -174,17 +178,17 @@ function SongCard({songDetail,index,pagePlaylistId,pagePlaylistName,handlePlayli
             <Toaster/>
             {/* default play svg */}
             {!isPlaylistPlaying || playlistCurrentIndex!=index || playlistName!= pagePlaylistName?
-                <svg className='w-10 h-10 cursor-pointer text-red-500  ' onClick={()=>{defaultHandlePlaylistPlay(index)}} fill="none"  stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg className='w-10 h-10 shrink-0 cursor-pointer text-red-500  ' onClick={()=>{defaultHandlePlaylistPlay(index)}} fill="none"  stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 :null
             }  
             {/* play svg */}
             {isPlaylistPlaying && !isSongPlaying && playlistCurrentIndex==index && playlistName === pagePlaylistName?
-                <svg className='w-10 h-10 cursor-pointer ' onClick={()=>{handlePlaylistPlay()}} fill="none"  stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg className='w-10 h-10 shrink-0 cursor-pointer ' onClick={()=>{handlePlaylistPlay()}} fill="none"  stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 :null
             }    
             {/* pause song svg */}
             {isPlaylistPlaying && isSongPlaying && playlistCurrentIndex==index && playlistName === pagePlaylistName?
-                <svg className='w-10 h-10 cursor-pointer' onClick={()=>{handlePlaylistStop()}} viewBox="0 0 48 48"  xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48H0z" fill="none"/><path fill="currentColor" d="M18 32h4V16h-4v16zm6-28C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm0 36c-8.82 0-16-7.18-16-16S15.18 8 24 8s16 7.18 16 16-7.18 16-16 16zm2-8h4V16h-4v16z"/></svg>
+                <svg className='w-10 h-10 shrink-0 cursor-pointer' onClick={()=>{handlePlaylistStop()}} viewBox="0 0 48 48"  xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48H0z" fill="none"/><path fill="currentColor" d="M18 32h4V16h-4v16zm6-28C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm0 36c-8.82 0-16-7.18-16-16S15.18 8 24 8s16 7.18 16 16-7.18 16-16 16zm2-8h4V16h-4v16z"/></svg>
                 :null
             }
 
@@ -197,10 +201,11 @@ function SongCard({songDetail,index,pagePlaylistId,pagePlaylistName,handlePlayli
                       height={50}
                       alt="Picture of the author"
                 />
-                {/* <div className='flex flex-col basis-full text-sm ml-2'> */}
-                <p className="grow">{videoTitle}</p>
+                  <div className="grow max-h-[30px] overflow-x-scroll">
+                        <p className=" whitespace-nowrap ">{videoTitle}</p>
+                  </div>
                 <svg
-                    className="justify-self-end w-10 h-10 min-w-[1.8rem] min-h-[1.8rem] cursor-pointer"
+                    className="justify-self-end w-10 h-10 min-w-[1.8rem] min-h-[1.8rem] shrink-0 cursor-pointer"
                     version="1.1"
                     viewBox="0 0 24 24"
                     xmlSpace="preserve"

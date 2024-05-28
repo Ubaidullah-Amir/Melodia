@@ -127,14 +127,15 @@ const SongCard = ({videoTitle,videoURL,videoId,index,handleQueuePlay,defaultHand
             }
                         
                 <Image
-                className='w-12 h-12  rounded-[50%] border-2 ml-2'
+                className='w-12 h-12 hidden md:block rounded-[50%] border-2 ml-2'
                       src={videoURL?videoURL:"/NoUserImage.jpeg"}
                       width={50}
                       height={50}
                       alt="Picture of the author"
                 />
-                {/* <div className='flex flex-col basis-full text-sm ml-2'> */}
-                <p className="grow">{videoTitle}</p>
+                <div className="grow max-h-[30px] overflow-x-scroll">
+                        <p className=" whitespace-nowrap ">{videoTitle}</p>
+                  </div>
                 <svg
                     className="justify-self-end shrink-0 w-9 h-9 min-w-[1.8rem] min-h-[1.8rem] cursor-pointer"
                     version="1.1"

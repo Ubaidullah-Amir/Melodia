@@ -21,3 +21,8 @@ export const INVALIDREQUEST = "INVALID_REQUEST"
 
 //  youtube API (10,000 query/day)
 export const QUOTA_EXCEEDED = "QUOTA_EXCEEDED"
+
+
+
+// playlist name for a favourite (default playlist)
+export const PLAYLIST_FAVOURITE = "favourite"

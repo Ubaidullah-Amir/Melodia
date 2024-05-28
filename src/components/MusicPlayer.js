@@ -1,11 +1,15 @@
 "use client"
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import UseYouTubeComp from '@/customHooks/useYoutubeComp';
 import YouTube from 'react-youtube';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeProperNextIndexQueueState, changeProperPrevIndexQueueState } from '@/redux/features/queueList-slice';
 import { changeToProperNextIndexPlaylist, changeToProperPrevIndexPlaylist } from '@/redux/features/playlist';
+import { useAddSongToPlaylistMutation, useGetPlaylistByIdQuery, useGetPlaylistQuery } from '@/redux/features/api';
+import { PLAYLIST_FAVOURITE, UNAUTHENTICATED } from '@/helper/ImportantStrings';
+import toast from 'react-hot-toast';
+import { useFavouriteInMusicPlayer } from '@/customHooks/useFavouriteInMusicPlayer';
 const MusicPlayer = ({styles}) => {
       //testing
       const isQueuePlaying = useSelector(state=>state.Queue.isQueuePlaying) 
@@ -20,6 +24,8 @@ const MusicPlayer = ({styles}) => {
       const videoDescription = selectedVideoInfo?selectedVideoInfo.videoDescription:""
       const videoURL = selectedVideoInfo?selectedVideoInfo.videoURL:""
       const videoId = useSelector(state=>state.musicPlayer.videoId)
+      const {data:isFavourite,error,isError} = useFavouriteInMusicPlayer(videoId)
+
       
       const {
             onStateChange,
@@ -34,23 +40,62 @@ const MusicPlayer = ({styles}) => {
             durationInSec,
             onEnd
       } = UseYouTubeComp(player)
+
+
+      // handling playlist faviuorites
+
+      const [
+            addSongToPlaylistMutation,{
+            isLoading: isSongAdding,
+            isSuccess:hasSongAdded,
+            isError:isErrorAddingSongToPlaylist,
+            error:songAddingError,
+            }] = useAddSongToPlaylistMutation()
+      
       function handleAddFavPlaylist() {
-            const songSample = { 
-                  playlist: ['favourite'],
+            if(isFavourite) return 
+            const playlistObj = { 
+                  playlist: [PLAYLIST_FAVOURITE],
                   songObj:{ 
                         songName: videoTitle,
                         songUrl: videoURL,
                         youtubeId: videoId
                   }
             }
-            console.log("songSample",songSample)
+            
+            
+            addSongToPlaylistMutation(playlistObj)
+              
       }
       
+      useEffect(() =>{
+            if(hasSongAdded){
+                toast.success("Song successfully added")
+            }
+        },[hasSongAdded])
+
+        useEffect(()=>{
+            if(isErrorAddingSongToPlaylist ){
+    
+                // letting the user use the app 
+                // const condition1 = gettingPlaylistError?.data?.error === UNAUTHENTICATED
+                toast.error("Session Expired, Please login again")
+                const condition2 = songAddingError?.data?.error === UNAUTHENTICATED
+                if( condition2){
+                    router.replace("/login")
+                }
+            }
+    
+        },[isErrorAddingSongToPlaylist ])
+
+
       
       return (
             <>
+            {isSongAdding && <p className="text-blue-800">Please wait, Song is adding to your Favuorites </p>}
+            <div className={`${!videoTitle && "hidden"} bg-white dark:bg-gray-800  fixed bottom-0 w-[100vw] md:max-h-[10vh] max-h-[25vh] py-0 flex md:flex-row flex-col  md:py-2  pr-6 pl-4 items-center justify-between  z-50 rounded-md `}>
             
-            <div className={`${!videoTitle && "hidden"} bg-white dark:bg-gray-800  fixed bottom-0 w-[100vw] md:max-h-[10vh] max-h-[20vh] py-0 flex md:flex-row flex-col  md:py-2  pr-6 pl-4 items-center justify-between  z-50 rounded-md `}>
+            {/* only in mobile view */}
             <div className={`${styles.musicRangeInput} md:hidden min-w-[100px] grow w-[100%] shrink-0 flex items-center gap-1 `} >
                         <input className='w-full' type='range' 
                         value={currentTime}  
@@ -61,9 +106,19 @@ const MusicPlayer = ({styles}) => {
                         }} 
                         />
                         <p className='text-gray-500 text-xs '>{durationInSec}</p>
-                        <div className='min-w-[20px] max-w-[28px]'><svg className='w-full' version="1.1" viewBox="0 0 512 512"  xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"><path fill="currentColor" d="M340.8,98.4c50.7,0,91.9,41.3,91.9,92.3c0,26.2-10.9,49.8-28.3,66.6L256,407.1L105,254.6c-15.8-16.6-25.6-39.1-25.6-63.9  c0-51,41.1-92.3,91.9-92.3c38.2,0,70.9,23.4,84.8,56.8C269.8,121.9,302.6,98.4,340.8,98.4 M340.8,83C307,83,276,98.8,256,124.8  c-20-26-51-41.8-84.8-41.8C112.1,83,64,131.3,64,190.7c0,27.9,10.6,54.4,29.9,74.6L245.1,418l10.9,11l10.9-11l148.3-149.8  c21-20.3,32.8-47.9,32.8-77.5C448,131.3,399.9,83,340.8,83L340.8,83z"/></svg></div>
-            
-                  </div>
+                        {
+                            (!isError && error != UNAUTHENTICATED)?
+                            <div className='min-w-[20px] max-w-[28px]'
+                        onClick={handleAddFavPlaylist}
+                        >
+                        
+                         <svg className='w-full hover:scale-105' width="92px" height="92px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> 
+                         <path fill={isFavourite?"#ff0f0f":"white"} d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" ></path> </g></svg>
+                        </div>: 
+                        null
+                        }
+            </div>
+             {/* only in mobile view */}
                   <div className='hidden'>
                  <YouTube
                   opts={opts} 
@@ -81,7 +136,7 @@ const MusicPlayer = ({styles}) => {
                         height={50}
                         alt="Author"
                   />
-                  <div className='flex shrink-0  h-[8vh] w-[40%] grow flex-col   overflow-hidden  text-sm  '>
+                  <div className='flex shrink-0  h-[8vh] w-[20%] grow flex-col sm:w-[40%]  overflow-hidden  text-sm  '>
                         
                         <p className='font-semibold '>{videoTitle} </p>
                         <p className='hidden hover:block absolute bottom-full'> {videoTitle} -{videoDescription}</p>
@@ -89,7 +144,7 @@ const MusicPlayer = ({styles}) => {
                   </div>
                   <div className='md:hidden flex shrink-0  w-[30%] max-w-[100px] item-center text-xs '>
                         {/* backward svg */}
-                        <svg fill="currentColor" className='w-7 rotate-180' onClick={()=>{seekTo(getCurrentTime() - 5)}} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
+                        <svg fill="currentColor" className='w-5 rotate-180' onClick={()=>{seekTo(getCurrentTime() - 5)}} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
 	                        viewBox="0 0 512 512" xmlSpace="preserve"><g><g><path d="M480,0c-11.776,0-21.333,9.557-21.333,21.333v210.325L42.283,2.645c-6.613-3.627-14.656-3.52-21.141,0.32 c-6.485,3.84-10.475,10.816-10.475,18.368v469.333c0,7.552,3.989,14.528,10.475,18.368C24.491,511.019,28.245,512,32,512 c3.541,0,7.083-0.875,10.283-2.645l416.384-229.013v210.325c0,11.776,9.557,21.333,21.333,21.333s21.333-9.557,21.333-21.333 V21.333C501.333,9.557,491.776,0,480,0z"/></g></g>
                         </svg>
                        
@@ -103,7 +158,7 @@ const MusicPlayer = ({styles}) => {
                         
                         
                         {/* forward svg */}
-                        <svg fill="currentColor" className='w-7 '  onClick={()=>{seekTo(getCurrentTime() + 5)}} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
+                        <svg fill="currentColor" className='w-5 '  onClick={()=>{seekTo(getCurrentTime() + 5)}} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" 
 	                        viewBox="0 0 512 512" xmlSpace="preserve"><g><g><path d="M480,0c-11.776,0-21.333,9.557-21.333,21.333v210.325L42.283,2.645c-6.613-3.627-14.656-3.52-21.141,0.32 c-6.485,3.84-10.475,10.816-10.475,18.368v469.333c0,7.552,3.989,14.528,10.475,18.368C24.491,511.019,28.245,512,32,512 c3.541,0,7.083-0.875,10.283-2.645l416.384-229.013v210.325c0,11.776,9.557,21.333,21.333,21.333s21.333-9.557,21.333-21.333 V21.333C501.333,9.557,491.776,0,480,0z"/></g></g>
                         </svg>
                   </div>
@@ -140,11 +195,18 @@ const MusicPlayer = ({styles}) => {
                         }} 
                         />
                         <p className='text-gray-500 text-xs '>{durationInSec}</p>
-                        <div className='min-w-[20px] max-w-[28px]'
+                        {
+                            (!isError && error != UNAUTHENTICATED)?
+                            <div className='min-w-[20px] max-w-[28px]'
                         onClick={handleAddFavPlaylist}
                         >
-                              <svg className='w-full hover:scale-105' version="1.1" viewBox="0 0 512 512"  xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"><path fill="currentColor" d="M340.8,98.4c50.7,0,91.9,41.3,91.9,92.3c0,26.2-10.9,49.8-28.3,66.6L256,407.1L105,254.6c-15.8-16.6-25.6-39.1-25.6-63.9  c0-51,41.1-92.3,91.9-92.3c38.2,0,70.9,23.4,84.8,56.8C269.8,121.9,302.6,98.4,340.8,98.4 M340.8,83C307,83,276,98.8,256,124.8  c-20-26-51-41.8-84.8-41.8C112.1,83,64,131.3,64,190.7c0,27.9,10.6,54.4,29.9,74.6L245.1,418l10.9,11l10.9-11l148.3-149.8  c21-20.3,32.8-47.9,32.8-77.5C448,131.3,399.9,83,340.8,83L340.8,83z"/></svg>
-                        </div>
+                        
+                         <svg className='w-full hover:scale-105' width="92px" height="92px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> 
+                         <path fill={isFavourite?"#ff0f0f":"white"} d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z" ></path> </g></svg>
+                        </div>: 
+                        null
+                        }
+                        
             
                   </div>
 
