@@ -4,6 +4,7 @@ import styles from '@/app/(withMainLayout)/styles.module.css'
 import SearchResult from "@/components/SearchResult"
 import { useEffect } from "react"
 import { useGetGoogleApiSearchQuery } from "@/redux/features/api"
+import { Toaster } from "react-hot-toast"
 
 function Search({searchParams}) {
     
@@ -18,11 +19,14 @@ function Search({searchParams}) {
   }  = useGetGoogleApiSearchQuery(search)
   console.log("error",error)
     return (
+        <>
+        <Toaster/>
     <div className='  rounded-md p-3'>
         <Topbar toggleStyle={styles.toggleStyle}/>
         {isSuccess && <SearchResult styles={styles} searchSongs={searchSongs}/>}
 
     </div>
+    </>
     )
 }
 

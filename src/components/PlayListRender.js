@@ -112,17 +112,17 @@ const SongCard = ({videoTitle,videoURL,videoId,index,handleQueuePlay,defaultHand
         <div className='flex py-2 px-4 rounded-full items-center bg-white dark:bg-blue-950'>
             {/*default play svg */}
             {!isQueuePlaying || queueCurrentIndex!=index?
-                <svg className='w-10 h-10 cursor-pointer text-red-500 ' onClick={()=>{defaultHandleQueuePlay(index)}} fill="none"  stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg className='w-9 h-9 cursor-pointer text-red-500 shrink-0' onClick={()=>{defaultHandleQueuePlay(index)}} fill="none"  stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 :null
             }  
             {/* play svg */}
             {isQueuePlaying && !isSongPlaying && queueCurrentIndex==index?
-                <svg className='w-10 h-10 cursor-pointer ' onClick={()=>{handleQueuePlay(index)}} fill="none"  stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg className='w-10 h-10 cursor-pointer  shrink-0' onClick={()=>{handleQueuePlay(index)}} fill="none"  stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 :null
             }    
             {/* pause song svg */}
             {isQueuePlaying && isSongPlaying && queueCurrentIndex==index?
-                <svg className='w-10 h-10 cursor-pointer' onClick={()=>{handleQueueSongStop()}} viewBox="0 0 48 48"  xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48H0z" fill="none"/><path fill="currentColor" d="M18 32h4V16h-4v16zm6-28C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm0 36c-8.82 0-16-7.18-16-16S15.18 8 24 8s16 7.18 16 16-7.18 16-16 16zm2-8h4V16h-4v16z"/></svg>
+                <svg className='w-10 h-10 cursor-pointer shrink-0' onClick={()=>{handleQueueSongStop()}} viewBox="0 0 48 48"  xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48H0z" fill="none"/><path fill="currentColor" d="M18 32h4V16h-4v16zm6-28C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm0 36c-8.82 0-16-7.18-16-16S15.18 8 24 8s16 7.18 16 16-7.18 16-16 16zm2-8h4V16h-4v16z"/></svg>
                 :null
             }
                         
@@ -136,7 +136,7 @@ const SongCard = ({videoTitle,videoURL,videoId,index,handleQueuePlay,defaultHand
                 {/* <div className='flex flex-col basis-full text-sm ml-2'> */}
                 <p className="grow">{videoTitle}</p>
                 <svg
-                    className="justify-self-end w-10 h-10 min-w-[1.8rem] min-h-[1.8rem] cursor-pointer"
+                    className="justify-self-end shrink-0 w-9 h-9 min-w-[1.8rem] min-h-[1.8rem] cursor-pointer"
                     version="1.1"
                     viewBox="0 0 24 24"
                     xmlSpace="preserve"

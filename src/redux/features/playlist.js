@@ -42,6 +42,18 @@ export const PlaylistReducer = createSlice({
                 state.currentIndex = null;
             }
         },
+        changeToProperPrevIndexPlaylist: (state) => {
+            // If the queue is not empty, calculate the previous index in a circular manner
+            if (state.SongList.length > 0) {
+                if(state.currentIndex==0){
+                    state.currentIndex = state.SongList.length-1
+                }else{
+                    state.currentIndex = (state.currentIndex - 1) % state.SongList.length;
+                }
+            } else {
+                state.currentIndex = null;
+            }
+        },
         changeCurrentIndexPlaylistTo: (state,action)=>{
             state.currentIndex=action.payload;
         },
@@ -68,6 +80,7 @@ export const {
     addSongToPlaylist,
     removeSongFromPlaylist,
     changeToProperNextIndexPlaylist,
+    changeToProperPrevIndexPlaylist,
     changeCurrentIndexPlaylistTo,
     setPlaylistToPlaying,
     setPlaylistToStop,

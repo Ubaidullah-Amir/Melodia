@@ -42,6 +42,18 @@ export const QueueReducer = createSlice({
                 state.currentIndex = null;
             }
         },
+        changeProperPrevIndexQueueState: (state) => {
+            // If the queue is not empty, calculate the previous index in a circular manner
+            if (state.queueSong.length > 0) {
+                if(state.currentIndex==0){
+                    state.currentIndex = state.queueSong.length-1
+                }else{
+                    state.currentIndex = (state.currentIndex - 1) % state.queueSong.length;
+                }
+            } else {
+                state.currentIndex = null;
+            }
+        },
         changeCurrentIndexQueueStateTo: (state,action)=>{
             state.currentIndex=action.payload;
         },
@@ -66,6 +78,7 @@ export const {
     setQueueToPlaying,
     setQueueToStop,
     changeProperNextIndexQueueState,
+    changeProperPrevIndexQueueState,
     setQueueToReset
 } = QueueReducer.actions
 export default QueueReducer
