@@ -10,8 +10,8 @@ import { getToken } from "next-auth/jwt";
 const useGetToken =async (req)=>{
     const token = await getToken({
         req,
-        // secret: process.env.NEXTAUTH_SECRET,
-        // cookieName: "__Secure-next-auth.session-token"
+        secret: process.env.NEXTAUTH_SECRET,
+        cookieName: "__Secure-next-auth.session-token"
       });
     return token
 }
