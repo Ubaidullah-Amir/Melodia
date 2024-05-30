@@ -82,6 +82,7 @@ export default function PlayListRender({styles}) {
                 handleQueueSongStop={handleQueueSongStop}
                 handleQueuePlay = {handleQueuePlay}
                 defaultHandleQueuePlay={defaultHandleQueuePlay}
+                styles={styles}
                 />
             })}
             </div>
@@ -96,7 +97,7 @@ export default function PlayListRender({styles}) {
 
 
 
-const SongCard = ({videoTitle,videoURL,videoId,index,handleQueuePlay,defaultHandleQueuePlay,handleQueueSongStop})=>{
+const SongCard = ({styles,videoTitle,videoURL,videoId,index,handleQueuePlay,defaultHandleQueuePlay,handleQueueSongStop})=>{
     const dispatch = useDispatch()
     const isQueuePlaying = useSelector(state=>state.Queue.isQueuePlaying)
     const isSongPlaying = useSelector(state=>state.musicPlayer.isPlayerPlaying)
@@ -133,7 +134,7 @@ const SongCard = ({videoTitle,videoURL,videoId,index,handleQueuePlay,defaultHand
                       height={50}
                       alt="Picture of the author"
                 />
-                <div className="grow max-h-[30px] overflow-x-scroll">
+                <div className={`${styles.scrollbarContainer} grow max-h-[30px] overflow-x-scroll`}>
                         <p className=" whitespace-nowrap ">{videoTitle}</p>
                   </div>
                 <svg

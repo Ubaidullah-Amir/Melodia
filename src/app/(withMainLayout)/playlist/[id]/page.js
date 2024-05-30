@@ -201,7 +201,7 @@ function SongCard({songDetail,index,pagePlaylistId,pagePlaylistName,handlePlayli
                       height={50}
                       alt="Picture of the author"
                 />
-                  <div className="grow max-h-[30px] overflow-x-scroll">
+                  <div className={`${styles.scrollbarContainer} grow max-h-[30px] overflow-x-scroll`}>
                         <p className=" whitespace-nowrap ">{videoTitle}</p>
                   </div>
                 <svg

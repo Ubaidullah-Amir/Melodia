@@ -211,7 +211,7 @@ const MusicPlayer = ({styles}) => {
                   </div>
 
                   {isQueuePlaying &&
-                  <>
+                  <div className='flex shrink-0 w-20 gap-1'>
                   {/* previous queue song */}
                    <button onClick={()=>{
                         
@@ -231,7 +231,7 @@ const MusicPlayer = ({styles}) => {
                         
                   </button>
                  
-                  </>
+                  </div>
                   }
                   {isPlaylistPlaying &&
                   <div className='flex shrink-0 w-20 gap-1'>
